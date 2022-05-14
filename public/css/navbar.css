@@ -1,0 +1,21 @@
+.logo{
+    font-family: Archivo, serif;
+    font-weight: 500;
+    font-size: 1.6rem;
+    color: #ffffff;
+}
+
+#dropdown{
+    color: red;
+}
+
+.dropdown-item:focus{
+    background-color: #343a40;
+}
+
+.navbar{
+    box-shadow: #414141 0 2px 8px 1px;
+    border-bottom: 1px solid #1C1D23FF;
+    background: rgb(17,18,20);
+    background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+}

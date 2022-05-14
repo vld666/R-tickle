@@ -1,0 +1,44 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+
+    <div class="container w-50 mb-5">
+        <table class="table table-hover text-center">
+            <thead>
+            <tr class="border-secondary">
+                <th>ID</th>
+                <th>Name</th>
+                <th>Desc</th>
+                <th>color</th>
+                <th class="actions">Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr class="tr">
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>
+                        {% if category.description %}
+                        {{ category.description }}
+                        {% else %}
+                            <span class="text-muted">none</span>
+                        {% endif %}
+                    </td>
+                    <td style="background-color: {{ category.color }}">{{ category.color }}</td>
+                    <td>
+                        <a href="#" style="text-decoration: none">
+                            <button class="btn btn-warning btn-sm">Edit</button>
+                        </a>
+                        <a href="{{ path('app_category_delete', {id: category.id}) }}" style="text-decoration: none">
+                            <button class="btn btn-danger btn-sm">Delete</button>
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+{% endblock %}

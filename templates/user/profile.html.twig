@@ -1,0 +1,236 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Profile{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="row mb-3"></div>
+
+
+        <div class="row mt-5">
+            <div class="col-5 profileMenu pb-3">
+                <div class="row">
+                    <div class="col text-light">
+                        <div class="row">
+                            <div class="col-2">
+                                {% if app.user.profilePicture %}
+                                    <img src="{{ asset('uploads/profilePics/') }}{{ app.user.profilePicture }}" alt="No image" class="card-img-top image profilePicture m-3" style="width: 100px!important; height: 100px!important;">
+                                {% else %}
+                                    <img src="{{ asset('uploads/profilePics/no-profile-pic.jpeg') }}" alt="No image" class="card-img-top image">
+                                {% endif %}
+                            </div>
+
+                            <div class="col-10 d-flex align-items-center justify-content-center">
+                                <p class="h2 align-middle">
+                                    Welcome, {{ app.user.firstName }} {{ app.user.lastName }}
+
+                                </p>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <hr class="">
+                        </div>
+                        <div class="row ps-3">
+                            Username: {{ app.user.username }}
+                        </div>
+                        <div class="row ps-3">
+                            Mail: {{ app.user.mail }}
+                        </div>
+                        <div class="row ps-3">
+                            Phone Number: {{ app.user.phone }}
+                        </div>
+                        <div class="row ps-3">
+                            First Name: {{ app.user.firstName }}
+                        </div>
+                        <div class="row ps-3">
+                            Last Name: {{ app.user.lastName }}
+                        </div>
+
+                        <div class="row">
+{#                            <hr class="my-3">#}
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-1"></div>
+            <div class="col-6">
+                <div class="row">
+                    <div class="col p-0">
+                        <div class="container p-0">
+                            <a href="#button" class="btn expandable articlesBtn text-light" data-toggle="collapse">My R-tickles</a>
+                            <div id="button" class="collapse articlesMenu">
+                                <div class="row">
+                                    {% if userArticles[0] is not null %}
+                                    {% for article in userArticles %}
+                                        <div class="col d-flex justify-content-center m-3">
+                                            <div class="card" style="width: 30rem;">
+                                                {% if article.image %}
+                                                    <img src="{{ asset('uploads/photos/') }}{{ article.image }}" alt="img missing" class="card-img-top image">
+                                                {% else %}
+                                                    <img src="{{ asset('uploads/photos/no-image.png') }}" alt="No image" class="card-img-top image" style="filter: invert(70%)">
+                                                {% endif %}
+                                                <div class="card-body mx-auto pt-0 text-center">
+                                                    <div class="row pt-2 pb-2">
+
+                                                        {% if article.category %}
+                                                            <div class="col-4">
+                                                                <div class="category" style="background-color: {{ article.category.color }} ">
+                                                                    {{ article.category.name }}
+                                                                </div>
+                                                            </div>
+                                                        {% else %}
+                                                            <div class="col-3">
+                                                                <div class="category cat-none">
+                                                                    None
+                                                                </div>
+                                                            </div>
+                                                        {% endif %}
+
+                                                        <div class="col-7">
+                                                            <div class="publisher text-muted">
+                                                                <p class="mx-0 my-0">
+                                                                    {{ article.createdAt|date("Y-m-d") }}
+                                                                </p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="row ">
+                                                        <div class="col ">
+                                                            <h5 class="card-title my-2">
+                                                                {{ article.title }}
+                                                            </h5>
+                                                            <a href="{{ path('app_article_view', {id: article.id}) }}" class="btn read-more text-light">View full R-tickle</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                    {% else %}
+                                        No articles yet!
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <a href="#button2" class="btn expandable articlesBtn text-light" data-toggle="collapse">My Statistics</a>
+                            <div id="button2" class="collapse statsMenu">
+                                <div class="row m-0 px-3">
+                                    <div class="col text-light">
+                                        <div class="row">
+                                            Articles: {{ app.user.articles|length }}
+                                        </div>
+                                        <div class="row">
+                                            Member from: {{ app.user.createdAt|date("Y-m-d") }}
+                                        </div>
+                                        <div class="row">
+                                            Current role:
+                                            {% if 'ROLE_ADMIN' in app.user.roles %}
+                                                Admin
+                                            {% else %}
+                                                User
+                                            {% endif %}
+                                        </div>
+                                        <div class="row">
+                                            Verified user:
+                                            {% if app.user.verified == 0 %}
+                                                No
+                                            {% else %}
+                                                Yes
+                                            {% endif %}
+                                        </div>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <hr>
+
+                            <a href="#button3" class="btn expandable articlesBtn text-light" data-toggle="collapse">Edit profile</a>
+                            <div id="button3" class="collapse editProfileMenu">
+
+                                <div class="row">
+                                    <div class="col text-light">
+
+                                        {{ form(userForm) }}
+
+
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+    <style>
+        .expandable{
+            width: 100%;
+
+
+        }
+
+        .btn:focus {
+            box-shadow: none;
+        }
+
+        .articlesMenu{
+            height: 70vh;
+            overflow-y: auto;
+        }
+
+
+
+        .statsMenu{
+            height: fit-content;
+            padding: 10px 0 10px 0;
+        }
+
+        .card{
+            min-height: 350px;
+        }
+
+        div #button, div #button2, div #button3{
+            background: rgb(17,18,20);
+            padding-top: 10px;
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+        }
+
+        .articlesBtn, .read-more{
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+        }
+
+        .articlesBtn{
+            border-bottom-left-radius: 0;
+            border-bottom-right-radius: 0;
+        }
+
+        .card-title{
+            font-size: 18px;
+        }
+
+        .profileMenu{
+        border-radius: 5px;
+        background: rgb(17,18,20);
+        background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+            max-height: 274px;
+        }
+
+
+    </style>
+{% endblock %}
