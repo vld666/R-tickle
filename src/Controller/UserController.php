@@ -41,7 +41,6 @@ class UserController extends AbstractController
 
 
         $userArticles = $this->em->getRepository(User::class)->findUserArticles($user);
-        dump($userArticles);
 
         return $this->render('user/profile.html.twig', [
             'userArticles' => $userArticles,
