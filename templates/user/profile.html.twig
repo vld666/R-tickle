@@ -111,7 +111,9 @@
                                         </div>
                                     {% endfor %}
                                     {% else %}
-                                        No articles yet!
+                                        <p class="text-muted text-center align-middle">
+                                            No articles yet!
+                                        </p>
                                     {% endif %}
                                 </div>
                             </div>
@@ -166,8 +168,64 @@
 
                             <hr>
 
-                            <a href="#button4" class="btn expandable articlesBtn text-light" data-toggle="collapse">aaa</a>
+                            <a href="#button4" class="btn expandable articlesBtn text-light" data-toggle="collapse">Favorite articles</a>
                             <div id="button4" class="collapse statsMenu">
+                                <div class="row">
+                                    {% if userFavArticles[0] is not null %}
+                                        {% for article in userFavArticles %}
+                                            <div class="col d-flex justify-content-center m-3">
+                                                <div class="card" style="width: 30rem;">
+                                                    {% if article.image %}
+                                                        <img src="{{ asset('uploads/photos/') }}{{ article.image }}" alt="img missing" class="card-img-top image">
+                                                    {% else %}
+                                                        <img src="{{ asset('uploads/photos/no-image.png') }}" alt="No image" class="card-img-top image" style="filter: invert(70%)">
+                                                    {% endif %}
+                                                    <div class="card-body mx-auto pt-0 text-center">
+                                                        <div class="row pt-2 pb-2">
+
+                                                            {% if article.category %}
+                                                                <div class="col-4">
+                                                                    <div class="category" style="background-color: {{ article.category.color }} ">
+                                                                        {{ article.category.name }}
+                                                                    </div>
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="col-3">
+                                                                    <div class="category cat-none">
+                                                                        None
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+
+                                                            <div class="col-7">
+                                                                <div class="publisher text-muted">
+                                                                    <p class="mx-0 my-0">
+                                                                        {{ article.createdAt|date("Y-m-d") }}
+                                                                    </p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="row ">
+                                                            <div class="col ">
+                                                                <h5 class="card-title my-2">
+                                                                    {{ article.title }}
+                                                                </h5>
+                                                                <a href="{{ path('app_article_view', {id: article.id}) }}" class="btn read-more text-light">View full R-tickle</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p class="text-muted text-center align-middle">
+                                            No articles yet!
+                                        </p>
+                                    {% endif %}
+                                </div>
+
+
                             </div>
 
 
@@ -196,7 +254,8 @@
         }
 
         .articlesMenu{
-            height: 70vh;
+            max-height: 70vh;
+            overflow-x: hidden;
             overflow-y: auto;
         }
 
@@ -211,7 +270,7 @@
             min-height: 350px;
         }
 
-        div #button, div #button2, div #button3{
+        div #button, div #button2, div #button3, div #button4{
             background: rgb(17,18,20);
             padding-top: 10px;
             background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
@@ -235,7 +294,8 @@
         border-radius: 5px;
         background: rgb(17,18,20);
         background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
-            max-height: 274px;
+        /*max-height: 274px;*/
+        height: 250px;
         }
 
 

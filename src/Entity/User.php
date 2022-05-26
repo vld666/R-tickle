@@ -81,9 +81,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $articles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=FavArticle::class, mappedBy="user", orphanRemoval=true)
+     */
+    private $favArticles;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
+        $this->favArticles = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -281,5 +287,35 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __toString() {
         return $this->getFirstName();
+    }
+
+    /**
+     * @return Collection<int, FavArticle>
+     */
+    public function getFavArticles(): Collection
+    {
+        return $this->favArticles;
+    }
+
+    public function addFavArticle(FavArticle $favArticle): self
+    {
+        if (!$this->favArticles->contains($favArticle)) {
+            $this->favArticles[] = $favArticle;
+            $favArticle->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavArticle(FavArticle $favArticle): self
+    {
+        if ($this->favArticles->removeElement($favArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($favArticle->getUser() === $this) {
+                $favArticle->setUser(null);
+            }
+        }
+
+        return $this;
     }
 }

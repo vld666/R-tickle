@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Article;
+use App\Entity\FavArticle;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Exception\ORMException;
@@ -101,5 +102,20 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         ;
 
         return $qb->getQuery()->getResult();
+    }
+
+
+    public function findFavArticles($user)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin(FavArticle::class,'fa', Join::WITH, 'fa.user = u')
+            ->leftJoin(Article::class, 'a', Join::WITH, 'fa.article = a')
+            ->where('u.id = :id')
+            ->setParameter('id', $user)
+            ->select('a')
+        ;
+
+        return $qb->getQuery()->getResult();
+
     }
 }

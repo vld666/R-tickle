@@ -3,10 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Article;
+use App\Entity\FavArticle;
 use App\Form\ArticleFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -27,18 +27,14 @@ class ArticleController extends AbstractController
      */
     public function indexAction(): Response
     {
+
         $articles = $this->em->getRepository(Article::class)->findBy(['visible' => 1]);
-//        $arrayCollection = array();
 
-
-//        foreach ($articles as $article){
-//            $arrayCollection[] = array(
-//                'categoryName' => $article->getCategory()->getName(),
-//            );
-//        }
+        $favArticles = $this->em->getRepository(FavArticle::class)->findBy(['user' => $this->getUser()]);
 
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
+            'favArticles' => $favArticles
         ]);
     }
 

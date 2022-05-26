@@ -21,6 +21,7 @@
                 {% endif %}
                     <div class="card-body mx-auto pt-0 text-center">
                         <div class="row pt-2 pb-2">
+{#                         id ->   {{ article.id }}#}
 
                             {% if article.category %}
                             <div class="col-3">
@@ -50,11 +51,47 @@
                         <h5 class="card-title my-2">
                             {{ article.title }}
                         </h5>
+                        <hr>
+
                         <p class="card-text text-center">
                             {{ article.text|length > 160 ? article.text|slice(0, 160) ~ '...' : article.text }}
                         </p>
                     <a href="{{ path('app_article_view', {id: article.id}) }}" class="btn read-more text-light">Read more</a>
-                </div>
+                    <a href="{{ path('app_add_fav', {id: article.id}) }}" class="btn btn-danger text-light">FAV</a>
+
+
+{#                        {% for favArticle in favArticles %}#}
+{#                            {% if article.id == favArticle.article.id %}#}
+{#                                Da#}
+{#                            {% else %}#}
+{#                                Nu#}
+{#                            {% endif %}#}
+{#                        {% endfor %}#}
+
+
+
+
+{#                        {% for favArticle in favArticles %}#}
+{#                            <hr>#}
+
+{#                            {{ dump(favArticle.article.id) }}a#}
+
+{#                            <hr>#}
+
+{#                            {{ dump(article.id) }}b#}
+
+
+
+{#                            {% if article.id == favArticle.article.id %}#}
+{#                                DA#}
+{#                            {% else %}#}
+{#                                NU#}
+{#                            {% endif %}#}
+
+{#                        {% endfor %}#}
+
+
+                    </div>
 
             </div>
 

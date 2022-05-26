@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ArticleRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
@@ -56,6 +58,16 @@ class Article
      * @ORM\Column(type="boolean")
      */
     private $visible;
+
+    /**
+     * @ORM\OneToMany(targetEntity=FavArticle::class, mappedBy="article", orphanRemoval=true)
+     */
+    private $favArticles;
+
+    public function __construct()
+    {
+        $this->favArticles = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -130,6 +142,36 @@ class Article
     public function setVisible(?bool $visible): self
     {
         $this->visible = $visible;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, FavArticle>
+     */
+    public function getFavArticles(): Collection
+    {
+        return $this->favArticles;
+    }
+
+    public function addFavArticle(FavArticle $favArticle): self
+    {
+        if (!$this->favArticles->contains($favArticle)) {
+            $this->favArticles[] = $favArticle;
+            $favArticle->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFavArticle(FavArticle $favArticle): self
+    {
+        if ($this->favArticles->removeElement($favArticle)) {
+            // set the owning side to null (unless already changed)
+            if ($favArticle->getArticle() === $this) {
+                $favArticle->setArticle(null);
+            }
+        }
 
         return $this;
     }

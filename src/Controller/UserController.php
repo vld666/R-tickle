@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\FavArticle;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Form\UserFormType;
@@ -42,7 +43,13 @@ class UserController extends AbstractController
 
         $userArticles = $this->em->getRepository(User::class)->findUserArticles($user);
 
+        $userFavArticles = $this->em->getRepository(User::class)->findFavArticles($user);
+
+
+
         return $this->render('user/profile.html.twig', [
+            'user' => $user,
+            'userFavArticles' => $userFavArticles,
             'userArticles' => $userArticles,
             'userForm' => $form->createView()
         ]);
