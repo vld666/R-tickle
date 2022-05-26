@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="container w-75 mb-5">
+        <table class="table table-hover">
+            <thead>
+            <tr class="border-secondary">
+                <th>ID</th>
+                <th>Full name</th>
+                <th>Username</th>
+                <th>Roles</th>
+                <th>Mail</th>
+                <th>Phone</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            {% for user in users %}
+                <tr class="tr">
+                    <td>{{ user.id }}</td>
+                    <td>{{ user.fullName }}</td>
+                    <td>{{ user.username }}</td>
+
+                    {% if 'ROLE_ADMIN' in user.roles %}
+                        <td>Admin</td>
+                    {% else %}
+                        <td>User</td>
+                    {% endif %}
+
+                    <td>{{ user.mail }}</td>
+                    <td>{{ user.phone }}</td>
+
+
+                    {#                    <td>#}
+{#                        <a href="{{ path('app_order_details', {id: order.id}) }}" style="text-decoration: none">#}
+{#                            <button class="btn btn-warning btn-sm">Details</button>#}
+{#                        </a>#}
+
+{#                    </td>#}
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+
+{% endblock %}

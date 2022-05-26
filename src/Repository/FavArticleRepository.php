@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Article;
 use App\Entity\FavArticle;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -75,5 +77,19 @@ class FavArticleRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getResult();
     }
+
+
+    public function getNrOfLikes($article)
+    {
+        $qb = $this->createQueryBuilder('fa')
+            ->leftJoin(Article::class, 'a', Join::WITH, 'fa.article = a')
+            ->setParameter('id', $article)
+            ->andWhere('fa.article = :id')
+            ->select('count(fa)')
+        ;
+
+        return $qb->getQuery()->getScalarResult();
+    }
+
 
 }

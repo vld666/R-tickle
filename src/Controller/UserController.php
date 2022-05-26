@@ -26,7 +26,7 @@ class UserController extends AbstractController
     /**
      * @Route("/user/profile", name="app_user_profile")
      */
-    public function index(Request $request, SluggerInterface $slugger): Response
+    public function profile(Request $request, SluggerInterface $slugger): Response
     {
         $user = $this->getUser();
 
@@ -52,6 +52,19 @@ class UserController extends AbstractController
             'userFavArticles' => $userFavArticles,
             'userArticles' => $userArticles,
             'userForm' => $form->createView()
+        ]);
+    }
+
+
+    /**
+     * @Route("/admin/user/index", methods={"GET"}, name="app_user_index")
+     */
+    public function index(): Response
+    {
+        $users = $this->em->getRepository(User::class)->findAll();
+
+        return $this->render('user/index.html.twig',[
+            'users' => $users
         ]);
     }
 

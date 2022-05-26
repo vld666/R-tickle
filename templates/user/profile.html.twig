@@ -17,7 +17,7 @@
                                 {% if app.user.profilePicture %}
                                     <img src="{{ asset('uploads/profilePics/') }}{{ app.user.profilePicture }}" alt="No image" class="card-img-top image profilePicture m-3" style="width: 100px!important; height: 100px!important;">
                                 {% else %}
-                                    <img src="{{ asset('uploads/profilePics/no-profile-pic.jpeg') }}" alt="No image" class="card-img-top image">
+                                    <img src="{{ asset('uploads/profilePics/no-profile-pic.jpeg') }}" alt="No image" class="card-img-top image profilePicture m-3" style="width: 100px!important; height: 100px!important;">
                                 {% endif %}
                             </div>
 
@@ -259,8 +259,6 @@
             overflow-y: auto;
         }
 
-
-
         .statsMenu{
             height: fit-content;
             padding: 10px 0 10px 0;
@@ -295,7 +293,7 @@
         background: rgb(17,18,20);
         background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
         /*max-height: 274px;*/
-        height: 250px;
+        height: fit-content;
         }
 
 

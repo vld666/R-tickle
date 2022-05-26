@@ -19,7 +19,7 @@ security:
             provider: app_user_provider
             custom_authenticator: App\Security\AppAuthenticator
             logout:
-                path: app_logoutcomposer require symfony/twig-pack
+                path: /logout
                 # where to redirect after logout
                 # target: app_any_route
 

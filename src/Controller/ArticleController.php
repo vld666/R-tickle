@@ -90,8 +90,11 @@ class ArticleController extends AbstractController
     {
         $article = $this->em->getRepository(Article::class)->find($article);
 
+        $nrFav = $this->em->getRepository(FavArticle::class)->getNrOfLikes($article);
+
 
         return $this->render('/article/view.html.twig', [
+            'nrFav' => $nrFav,
             'article' => $article,
         ]);
     }

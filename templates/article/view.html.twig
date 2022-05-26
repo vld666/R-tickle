@@ -103,6 +103,7 @@
 
                                     <span>Created: {{ article.createdAt|date('Y-m-d') }} </span> <br>
                                     <span>By: {{ article.publishedBy }}</span> <br>
+                                    <span> Likes: {{ nrFav[0][1] }}</span> <br>
                                     <span>
                                         <img src="{{ asset('uploads/profilePics/') }}{{ app.user.profilePicture }}" alt="No image" class="w-25 profileImage">
                                     </span>
