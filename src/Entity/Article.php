@@ -31,38 +31,38 @@ class Article
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $title;
+    private ?string $title;
 
     /**
      * @ORM\Column(type="text")
      */
-    private $text;
+    private ?string $text;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $image;
+    private ?string $image;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      */
-    private $category;
+    private ?Category $category;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $publishedBy;
+    private ?User $publishedBy;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private $visible;
+    private ?bool $visible;
 
     /**
      * @ORM\OneToMany(targetEntity=FavArticle::class, mappedBy="article", orphanRemoval=true)
      */
-    private $favArticles;
+    private Collection $favArticles;
 
     public function __construct()
     {
