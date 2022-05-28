@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <span>You have</span>
+                <span class="text-danger"> {{ app.user.credits }}</span>
+                <span>credits.</span>
+            </div>
+        </div>
+    </div>
+{% endblock %}

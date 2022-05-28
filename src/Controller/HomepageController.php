@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,6 +22,7 @@ class HomepageController extends AbstractController
      * @Route("/", name="app_homepage")
      */
     public function homepageAction(): Response
+
     {
 
         return $this->render('homepage.html.twig', [

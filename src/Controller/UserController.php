@@ -68,4 +68,18 @@ class UserController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/user/credits", methods={"GET", "POST"}, name="app_user_credits")
+     */
+    public function credits(Request $request): Response
+    {
+
+        return $this->render('/user/credits.html.twig',[
+        ]);
+    }
+
+
+
+
+
 }

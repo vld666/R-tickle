@@ -86,10 +86,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private Collection $favArticles;
 
+    /**
+     * @ORM\OneToMany(targetEntity=PaidArticles::class, mappedBy="user")
+     */
+    private $paidArticles;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private ?int $credits = 0;
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
         $this->favArticles = new ArrayCollection();
+        $this->user = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -313,6 +324,48 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
                 $favArticle->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PaidArticles>
+     */
+    public function getUser(): Collection
+    {
+        return $this->user;
+    }
+
+    public function addUser(PaidArticles $user): self
+    {
+        if (!$this->user->contains($user)) {
+            $this->user[] = $user;
+            $user->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUser(PaidArticles $user): self
+    {
+        if ($this->user->removeElement($user)) {
+            // set the owning side to null (unless already changed)
+            if ($user->getUser() === $this) {
+                $user->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCredits(): ?int
+    {
+        return $this->credits;
+    }
+
+    public function setCredits(int $credits): self
+    {
+        $this->credits = $credits;
 
         return $this;
     }

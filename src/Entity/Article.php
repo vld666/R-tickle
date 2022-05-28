@@ -26,7 +26,7 @@ class Article
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -64,9 +64,27 @@ class Article
      */
     private Collection $favArticles;
 
+    /**
+     * @ORM\Column(type="boolean")
+     */
+    private ?bool $isPaid;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private ?int $price = 0;
+
+    /**
+     * @ORM\OneToMany(targetEntity=PaidArticles::class, mappedBy="article")
+     */
+    private $article;
+
+
     public function __construct()
     {
         $this->favArticles = new ArrayCollection();
+        $this->user = new ArrayCollection();
+        $this->article = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -175,4 +193,62 @@ class Article
 
         return $this;
     }
+
+    public function isIsPaid(): ?bool
+    {
+        return $this->isPaid;
+    }
+
+    public function setIsPaid(bool $isPaid): self
+    {
+        $this->isPaid = $isPaid;
+
+        return $this;
+    }
+
+    public function getPrice(): ?int
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?int $price): self
+    {
+        $this->price = $price;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PaidArticles>
+     */
+    public function getArticle(): Collection
+    {
+        return $this->article;
+    }
+
+    public function addArticle(PaidArticles $article): self
+    {
+        if (!$this->article->contains($article)) {
+            $this->article[] = $article;
+            $article->setArticle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(PaidArticles $article): self
+    {
+        if ($this->article->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getArticle() === $this) {
+                $article->setArticle(null);
+            }
+        }
+
+        return $this;
+    }
+
+
+
+
 }

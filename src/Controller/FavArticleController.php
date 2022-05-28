@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\FavArticle;
+use App\Entity\User;
 use App\Repository\FavArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
@@ -31,14 +32,14 @@ class FavArticleController extends AbstractController
             'user' => $this->getUser()
         ]);
 
-
-
+        /** @var $user User */
+        $user = $this->getUser();
 
         if(!$favorite) {
             $favorite = new FavArticle();
 
             $favorite->setArticle($article)
-                    ->setUser($this->getUser());
+                    ->setUser($user);
             $this->em->persist($favorite);
         }else {
             $this->em->remove($favorite);

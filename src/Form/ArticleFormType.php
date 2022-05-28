@@ -4,8 +4,10 @@ namespace App\Form;
 
 use App\Entity\Article;
 use App\Entity\Category;
+use Symfony\Component\Form\Extension\Core\Type\BooleanType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -21,6 +23,9 @@ class ArticleFormType extends AbstractType
         $builder
             ->add('title', TextType::class)
             ->add('text', TextareaType::class)
+            ->add('isPaid', CheckboxType::class, [
+                'required' => false,
+            ])
             ->add('image', FileType::class, [
                 'label' => 'Article photo',
                 'attr' => ['placeholder' => 'aaa'],

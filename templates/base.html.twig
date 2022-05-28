@@ -83,7 +83,21 @@
                     </div>
                 </div>
 
-                <div class="col-2"></div>
+                <div class="col-2">
+                    {% if app.user %}
+                    <div class="container">
+                        <span class="text-muted">
+                            Credits:
+                            <span class="text-info">
+                                {{ app.user.credits }}
+                            </span>
+                        </span>
+                        <a href="{{ path('app_user_credits') }}">
+                            <div class="btn btn-sm btn-success">Buy</div>
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
 
                 {% if app.user %}
                     <div class="col-2">

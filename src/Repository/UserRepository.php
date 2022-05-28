@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Article;
 use App\Entity\FavArticle;
+use App\Entity\PaidArticles;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Exception\ORMException;
@@ -117,5 +118,26 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $qb->getQuery()->getResult();
 
+    }
+
+
+    public function getUserPaidArticles($user)
+    {
+        $qb = $this->createQueryBuilder('u')
+            ->leftJoin(PaidArticles::class, 'pa', Join::WITH, 'pa.user = u')
+            ->where('u.id = :id')
+            ->setParameter('id', $user)
+            ->select('IDENTITY(pa.article)')
+            ;
+
+        return $qb->getQuery()->getResult();
+    }
+
+    public function remainingCredits($article, $user)
+    {
+        $articlePrice = $article->getPrice();
+        $creditsAvailable = $user->getCredits();
+
+        return $creditsAvailable - $articlePrice;
     }
 }

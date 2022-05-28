@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Article;
 use App\Entity\FavArticle;
+use App\Entity\PaidArticles;
+use App\Entity\User;
 use App\Form\ArticleFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -30,12 +32,61 @@ class ArticleController extends AbstractController
 
         $articles = $this->em->getRepository(Article::class)->findBy(['visible' => 1]);
 
+        $userPaidArticles = $this->em->getRepository(User::class)->getUserPaidArticles($this->getUser());
+
         $favArticles = $this->em->getRepository(FavArticle::class)->findBy(['user' => $this->getUser()]);
+
+//        dd($userPaidArticles);
 
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
-            'favArticles' => $favArticles
+            'favArticles' => $favArticles,
+            'userPaidArticles' => $userPaidArticles
         ]);
+    }
+
+    /**
+     * @Route("/article/buy/{id}", methods={"GET"}, name="app_article_buy")
+     */
+    public function buyArticle(Article $article): Response
+    {
+        $remainingCredits = $this->em->getRepository(User::class)->remainingCredits($article, $this->getUser());
+
+
+
+
+        return $this->render('article/buy.html.twig',[
+            'remainingCredits' => $remainingCredits,
+            'article' => $article
+        ]);
+    }
+
+    /**
+     * @Route("/article/buy/{id}/ok", methods={"POST", "GET"}, name="app_article_buy_ok")
+     */
+    public function buyArticleOk(Article $article)
+    {
+        /** @var $user User */
+        $user = $this->getUser();
+        $articlePrice = $article->getPrice();
+        $userCredits = $user->getCredits();
+
+        if ($userCredits >= $articlePrice){
+            $paidArticle = new PaidArticles();
+
+            $paidArticle->setUser($user)->setArticle($article);
+            $this->em->persist($paidArticle);
+
+            $user->setCredits($userCredits - $articlePrice);
+
+            $this->em->flush();
+        }else{
+            return $this->redirectToRoute('app_user_profile');
+        }
+
+
+        return $this->redirectToRoute('app_article_view', ['id' => $article->getId()]);
+
     }
 
 
@@ -173,6 +224,8 @@ class ArticleController extends AbstractController
             'article' => $article
         ]);
     }
+
+
 
 
 

@@ -1,0 +1,44 @@
+{% extends './base.html.twig' %}
+
+{% block body %}
+
+    <div class="container w-25">
+        <div class="row">
+            <div class="col">
+
+                <span>Are you sure you wanna buy:</span><br>
+                <span class="text-success">{{ article.title }}</span>
+
+            </div>
+        </div>
+
+        <hr>
+
+        <div class="row">
+            <div class="col">
+                <span>R-tickle price: <span class="text-danger">{{ article.price }}</span> credits</span>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col">
+                <span class="text-muted">Your available credits: <span class="text-primary"> {{ app.user.credits}} </span></span>
+            </div>
+        </div>
+        <br>
+
+        <div class="row">
+            <div class="col">
+                <span class="text-muted">Remaining after purchase: <span>{{ remainingCredits }}</span> </span>
+            </div>
+        </div>
+        <a href="{{ path('app_user_credits') }}">BUY MORE CREDITS</a>
+
+
+        <hr>
+
+        <a href="{{ path('app_article_buy_ok', {id: article.id}) }}">BUY THIS R-TICKLE</a>
+    </div>
+
+
+{% endblock %}
