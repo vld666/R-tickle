@@ -143,10 +143,12 @@ class ArticleController extends AbstractController
 
         $nrFav = $this->em->getRepository(FavArticle::class)->getNrOfLikes($article);
 
+        $userPaidArticles = $this->em->getRepository(User::class)->getUserPaidArticles($this->getUser());
 
         return $this->render('/article/view.html.twig', [
             'nrFav' => $nrFav,
             'article' => $article,
+            'userPaidArticles' => $userPaidArticles
         ]);
     }
 

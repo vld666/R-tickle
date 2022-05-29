@@ -74,18 +74,17 @@
                                     {% endif %}
                                 {% endfor %}
 
-
-                                {% if counter == 0 %}
-                            <div class="locked">
-                            <a href="{{ path('app_article_buy', {id: article.id}) }}" class="btn read-more text-light mt-5 fs-5">
-                                <i class="fa-solid fa-lock-open" style="font-size: 20px"></i>
-                                - Unlock this R-tickle</a>
-                            </div>
-                                {% endif %}
+                                    {% if counter == 0 %}
+                                        <div class="locked">
+                                            <a href="{{ path('app_article_buy', {id: article.id}) }}" class="btn read-more text-light mt-5 fs-5">
+                                                <i class="fa-solid fa-lock-open" style="font-size: 20px"></i>
+                                                - Unlock this R-tickle</a>
+                                        </div>
+                                    {% endif %}
                             {% endif %}
                             <p class="card-text text-center">
-                            {{ article.text|length > 160 ? article.text|slice(0, 160) ~ '...' : article.text }}
-                        </p>
+                                 {{ article.text|length > 160 ? article.text|slice(0, 160) ~ '...' : article.text }}
+                            </p>
                             <a href="{{ path('app_article_view', {id: article.id}) }}" class="btn read-more text-light">Read more</a>
                             <a href="{{ path('app_add_fav', {id: article.id}) }}" class="btn btn-danger text-light">FAV</a>
 
