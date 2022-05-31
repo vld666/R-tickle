@@ -1,19 +1,21 @@
-{% extends './base.html.twig' %}
+{% extends 'base.html.twig' %}
 
 {% block body %}
 
 
 
-    <div class="container w-75">
+    <div class="container indexContainer">
         <div class="row">
-            <div class="col d-flex justify-content-center">Some title or whatever</div>
+            <div class="col d-flex justify-content-center mt-2">
+                <span class="h2 title">Check out our last <span class="text-danger">R</span>-tickles</span>
+
+            </div>
         </div>
-        <hr>
         <div class="row d-flex justify-content-center">
 
             {% for article in articles %}
 
-            <div class="card mx-auto my-3" style="width: 20rem;">
+            <div class="card mx-2 my-3" style="width: 20rem;">
                 {% if article.isPaid == 0 %}
                     <div class="priceTag priceTagFree d-flex justify-content-center">
                         <span class="free text-middle text-dark">FREE</span>
@@ -29,7 +31,7 @@
                 {% else %}
                 <img src="{{ asset('uploads/photos/no-image.png') }}" alt="No image" class="card-img-top image" style="filter: invert(70%)">
                 {% endif %}
-                    <div class="card-body mx-auto pt-0 text-center">
+                    <div class="card-body mx-auto pt-0 text-center w-100">
                         <div class="row pt-2 pb-2">
 
                             {% if article.category %}
@@ -192,6 +194,10 @@
 
         .priceTagPaid{
             background-color: #ff6e4d;
+        }
+
+        .title{
+            text-shadow: #707070 0 0 2px;
         }
 
 

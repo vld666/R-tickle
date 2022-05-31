@@ -74,8 +74,43 @@ class UserController extends AbstractController
     public function credits(Request $request): Response
     {
 
+
         return $this->render('/user/credits.html.twig',[
         ]);
+    }
+
+//
+//    /**
+//     * @Route("/user/credits/add100", name="app_user_credits_add100"}
+//     */
+//    public function add100(): Response
+//    {
+////        $user = $this->getUser();
+////        $userC = $user->getCredits();
+////
+////        $userNewC = $userC + 100;
+////
+////        $user->setCredits($userNewC);
+////        $this->em->persist($user);
+////        $this->em->flush();
+//
+//        return $this->redirectToRoute('app_user_credits');
+//
+//    }
+
+    /**
+     * @Route("/user/credits/add/{amount}", methods={"GET", "POST"}, name="app_user_creditsAdd")
+     */
+    public function addCredits($amount): Response
+    {
+            $user = $this->getUser();
+            $userC = $user->getCredits();
+            $userNewC = $userC + $amount;
+            $user->setCredits($userNewC);
+            $this->em->persist($user);
+            $this->em->flush();
+
+        return $this->redirectToRoute('app_user_credits');
     }
 
 

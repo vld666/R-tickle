@@ -15,6 +15,8 @@
             <script src="https://kit.fontawesome.com/7adfab874d.js" crossorigin="anonymous"></script>
             <link href="{{ asset('css/navbar.css') }}" rel="stylesheet">
             <link href="{{ asset('css/base.css') }}" rel="stylesheet">
+            <link href="{{ asset('css/sidebar.css') }}" rel="stylesheet">
+
 
         {% endblock %}
 
@@ -24,107 +26,255 @@
     </head>
     <body>
 
-    {% block navbar %}
+            {% block navbar %}
+                <div class="navbar p-1 bg-dark sticky-top">
+                    <div class="row container-fluid">
 
-        <div class="navbar ps-3 mb-3 bg-dark sticky-top">
-            <div class="row container-fluid">
-                <div class="col-8">
-                    <div class="row">
-                        <div class="col d-flex align-items-center">
-                            <a href="#" style="text-decoration: none">
-                                <i class="fa-solid fa-feather-pointed me-2" style="color: red; font-size: 1.6rem;"></i>
-                            </a>
-                            <a href="{{ path('app_homepage') }}" style="text-decoration: none">
-                                <span class="logo"> <span style="color: red;">R</span>-tickle</span>
-                            </a>
-                        </div>
+                        <div class="col-2">
+                            <div class="row">
+                                <div class="col d-flex align-items-center" id="logo">
 
-                        <div class="col">
-                            <div class="dropdown">
-                                <a class="btn dropdown-toggle text-light" href="#" role="button" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Articles
-                                </a>
-                                <ul class="dropdown-menu dropdownbox" aria-labelledby="dropdown">
-                                    <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_article_index') }}">List</a></li>
-                                    {% if app.user %}
-                                    <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_article_create') }}">New article</a></li>
-                                    {% endif %}
-                                </ul>
+                                    <i class="fa-solid fa-bars me-4" style="color: white; font-size: 1.6rem; cursor: pointer" id="menuIcon"></i>
+
+                                    <a href="{{ path('app_article_index') }}" style="text-decoration: none">
+                                        <i class="fa-solid fa-feather-pointed me-1" style="color: red; font-size: 1.6rem;"></i>
+                                        <span class="logo"> <span style="color: red;">R</span>-tickle</span>
+                                    </a>
+                                </div>
                             </div>
                         </div>
 
                         {% if app.user %}
-                            {% if 'ROLE_ADMIN' in app.user.roles %}
-                                <div class="col">
+                            {% if "ROLE_ADMIN" in app.user.roles %}
+                        <div class="col-8">
+                            <div class="row">
+                                <div class="col-2">
                                     <div class="dropdown">
                                         <a class="btn dropdown-toggle text-light" href="#" role="button" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false" style="color: red">
                                             Users
                                         </a>
                                         <ul class="dropdown-menu dropdownbox" aria-labelledby="dropdown">
-                                            <li><a class="dropdown-item d-flex justify-content-center" href="#">Page 1</a></li>
                                             <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_user_index') }}">List</a></li>
                                         </ul>
                                     </div>
                                 </div>
+                                <div class="col-2">
+                                    <div class="dropdown">
+                                        <a class="btn dropdown-toggle text-light" href="#" role="button" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                            Categories
+                                        </a>
+                                        <ul class="dropdown-menu dropdownbox" aria-labelledby="dropdown">
+                                            <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_category_index') }}">List</a></li>
+                                            <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_category_create') }}">Create</a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+
+                                <div class="col-8">
+
+                                </div>
+                            </div>
+                        </div>
+                            {% else %}
+                        <div class="col-8"></div>
                             {% endif %}
                         {% endif %}
 
-                        <div class="col">
-                            <div class="dropdown">
-                                <a class="btn dropdown-toggle text-light" href="#" role="button" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                                    Categories
-                                </a>
-                                <ul class="dropdown-menu dropdownbox" aria-labelledby="dropdown">
-                                    <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_category_index') }}">List</a></li>
-                                    <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_category_create') }}">Create</a></li>
-                                </ul>
+
+
+
+{#                        <div class="col-8">#}
+{#                            <div class="row">#}
+
+
+{#                                <div class="col">#}
+{#                                    <div class="dropdown">#}
+{#                                        <a class="btn dropdown-toggle text-light" href="#" role="button" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">#}
+{#                                            Articles#}
+{#                                        </a>#}
+{#                                        <ul class="dropdown-menu dropdownbox" aria-labelledby="dropdown">#}
+{#                                            <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_article_index') }}">List</a></li>#}
+{#                                            {% if app.user %}#}
+{#                                                <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_article_create') }}">New article</a></li>#}
+{#                                            {% endif %}#}
+{#                                        </ul>#}
+{#                                    </div>#}
+{#                                </div>#}
+
+{#                                {% if app.user %}#}
+{#                                    {% if 'ROLE_ADMIN' in app.user.roles %}#}
+
+
+{#                                    {% endif %}#}
+{#                                {% endif %}#}
+
+
+{#                            </div>#}
+{#                        </div>#}
+
+
+                        {% if app.user %}
+                            <div class="col-2">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <div class="row d-flex justify-content-center text-danger">
+                                            {{ app.user.fullName }}
+                                        </div>
+                                        <div class="row text-center" style="margin-top: -5px; font-size: 14px">
+                                            <span class="text-light"><span class="text-info">{{ app.user.credits }}</span> credits</span>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 text-middle align-middle">
+                                        <a href="{{ path('app_user_credits') }}">
+                                            <div class="btn btn-success">Buy</div>
+                                        </a>
+                                    </div>
+                                </div>
+
+
+                            </div>
+                        {% else %}
+                            <div class="col-2">
+                                <div class="row">
+                                    <div class="col-8"></div>
+                                    <div class="col-4">
+                                        <a href="{{ path('app_login') }}" class="btn btn-sm btn-success">Login</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        {% endif %}
+
+{#                            <div class="col-1 text-light float-right">#}
+{#                                <a href="{{ path('app_login') }}" class="btn btn-sm btn-success">Login</a>#}
+{#                            </div>#}
+
+                    </div>
+                </div>
+            {% endblock %}
+                <nav class="sidebar position-fixed" id="sidebar">
+                    <div class="mt-5 mb-4">
+                        <hr>
+                    </div>
+
+                    <div class="user-space mt-2">
+
+                        <div class="row">
+                            <div class="col d-flex justify-content-center">
+                                {% if app.user %}
+                                {% if app.user.profilePicture %}
+                                    <img src="{{ asset('uploads/profilePics/') }}{{ app.user.profilePicture }}" alt="No image" class="sidenav-avatar">
+                                {% else %}
+                                    <img src="{{ asset('uploads/profilePics/no-profile-pic.jpeg') }}" alt="No image" class="sidenav-avatar">
+                                {% endif %}
+                                {% endif %}
                             </div>
                         </div>
-                    </div>
-                </div>
 
-                <div class="col-2">
-                    {% if app.user %}
-                    <div class="container">
-                        <span class="text-muted">
-                            Credits:
-                            <span class="text-info">
-                                {{ app.user.credits }}
-                            </span>
-                        </span>
-                        <a href="{{ path('app_user_credits') }}">
-                            <div class="btn btn-sm btn-success">Buy</div>
-                        </a>
-                    </div>
-                    {% endif %}
-                </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="text-light  d-flex justify-content-center mt-2 h4">
+                                    {% if app.user %}
+                                        {{ app.user.fullName }}
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
 
                 {% if app.user %}
-                    <div class="col-2">
-                        <div class="dropdown">
-                            <a class="btn dropdown-toggle text-light p-0" href="#" role="button" id="dropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            {% if app.user.profilePicture %}
-                            <img src="{{ asset('uploads/profilePics/') }}{{ app.user.profilePicture }}" alt="No image" class="profilePicture">
-                            {% else %}
-                            <img src="{{ asset('uploads/profilePics/no-profile-pic.jpeg') }}" alt="No image" class="profilePicture">
-                            {% endif %}
-                                Hi, {{ app.user.lastName }}
-                            </a>
-                            <ul class="dropdown-menu dropdownbox" aria-labelledby="dropdown">
-                                <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_user_profile') }}">Profile</a></li>
-                                <li><a class="dropdown-item d-flex justify-content-center" href="{{ path('app_logout') }}">Log-out</a></li>
+                   {% if 'ROLE_ADMIN' in app.user.roles %}
+                       <div class="row m-0 p-0">
+                           <div class="col d-flex justify-content-center m-0 p-0">
+                               <span class="text-danger" style="margin-top: -10px;">
+                                   Admin
+                               </span>
+                           </div>
+                       </div>
+                   {% endif %}
+                {% endif %}
+
+
+
+                    </div>
+
+
+
+                    <ul class="navbar-nav d-flex flex-column text-center w-100 mt-3">
+
+
+
+                        <li class="nav-item w-100">
+                            <a href="{{ path('app_homepage') }}" class="nav-link text-light">Home</a>
+                        </li>
+
+
+
+                        <li class="nav-item w-100">
+                            <a href="{{ path('app_user_profile') }}" class="nav-link text-light">Profile</a>
+                        </li>
+                        <li class="nav-item w-100">
+                            <a href="{{ path('app_user_credits') }}" class="nav-link text-light">Buy <span class="text-info">credits</span></a>
+                        </li>
+{#                        <li class="nav-item dropdown-sidebar w-100">#}
+{#                            <a href="#" class="nav-link text-light dropdown-toggle pl-4" id="sidebarDropdown" role="button" data-toggle="dropdown" aria-expanded="false">Dropdown</a>#}
+{#                            <ul class="dropdown-menu w-100" aria-labelledby="sidebarDropdown">#}
+{#                                <li><a href="#" class="dropdown-item text-light pl-4 p-2">Link 1</a></li>#}
+{#                                <li><a href="#" class="dropdown-item text-light pl-4 p-2">Link 2</a></li>#}
+{#                                <li><a href="#" class="dropdown-item text-light pl-4 p-2">Link 3</a></li>#}
+
+{#                            </ul>#}
+{#                        </li>#}
+
+
+                        <li class="nav-item dropdown-sidebar w-100">
+                            <a href="#collapse" class="nav-link text-light dropdown-toggle pl-4" id="sidebarCollapse" role="button" data-toggle="collapse" aria-expanded="false">Articles</a>
+                            <ul class="collapse" aria-labelledby="sidebarCollapse" id="collapse" style="padding: 0;">
+                                <li><a href="{{ path('app_article_index') }}" class="dropdown-item text-light pl-4 p-2">Read articles</a></li>
+                                <li><a href="{{ path('app_article_create') }}" class="dropdown-item text-light pl-4 p-2">Create new article</a></li>
                             </ul>
+                        </li>
+                    </ul>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center" style="position: absolute;bottom: 50px;left:3px;">
+                            <a href="{{ path('app_logout') }}" style="text-decoration: none">
+                                <button class="btn btn-sm btn-danger">
+                                    Log-out
+                                </button>
+                               </a>
+
                         </div>
                     </div>
-                {% else %}
-                    <div class="col-1 text-light float-right">
-                        <a href="{{ path('app_login') }}" class="btn btn-sm btn-success">Login</a>
-                    </div>
-                {% endif %}
-            </div>
-        </div>
-    {% endblock %}
 
-    {% block body %} {% endblock %}
+                </nav>
+                    <div id="body" class="pt-3">
+                        {% block body %} {% endblock %}
+                    </div>
+
     </body>
+
+
+    <script>
+        const logo = document.querySelector('#menuIcon')
+        const sidebar = document.querySelector('#sidebar');
+        const body = document.querySelector('#body');
+        const indexContainer = document.querySelector('.indexContainer')
+
+
+
+        logo.addEventListener('click',()=>{
+            sidebar.classList.toggle("active-nav")
+            body.classList.toggle("body-active-nav")
+            // indexContainer.classList.toggle("w-100")
+
+        })
+
+        body.addEventListener('click', ()=>{
+            sidebar.classList.remove("active-nav")
+            body.classList.remove("body-active-nav")
+
+        })
+
+
+
+    </script>
 </html>

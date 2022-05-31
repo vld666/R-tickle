@@ -212,6 +212,7 @@ class ArticleController extends AbstractController
 
 
 
+
                 $article->setImage($newFileName);
             }
 

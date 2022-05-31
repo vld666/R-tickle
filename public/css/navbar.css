@@ -10,7 +10,7 @@
 }
 
 .dropdown-item:focus{
-    background-color: #343a40;
+    background-color: #343a40 !important;
 }
 
 .navbar{
