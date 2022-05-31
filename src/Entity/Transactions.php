@@ -4,12 +4,18 @@ namespace App\Entity;
 
 use App\Repository\TransactionsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=TransactionsRepository::class)
+ * @Gedmo\SoftDeleteable
  */
 class Transactions
 {
+    use SoftDeleteableEntity;
+    use TimestampableEntity;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue

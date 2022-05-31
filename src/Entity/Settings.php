@@ -4,12 +4,18 @@ namespace App\Entity;
 
 use App\Repository\SettingsRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Gedmo\Mapping\Annotation as Gedmo;
+use Gedmo\SoftDeleteable\Traits\SoftDeleteableEntity;
+use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 /**
  * @ORM\Entity(repositoryClass=SettingsRepository::class)
+ * @Gedmo\SoftDeleteable
  */
 class Settings
 {
+    use SoftDeleteableEntity;
+    use TimestampableEntity;
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
