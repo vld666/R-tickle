@@ -136,7 +136,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     public function remainingCredits($article, $user)
     {
         $articlePrice = $article->getPrice();
-        $creditsAvailable = $user->getCredits();
+        $creditsAvailable = $user->getUserWallet()->getCredits();
 
         return $creditsAvailable - $articlePrice;
     }

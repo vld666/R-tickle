@@ -91,10 +91,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $paidArticles;
 
+//    /**
+//     * @ORM\Column(type="integer")
+//     */
+//    private ?int $credits = 0;
+
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\OneToOne(targetEntity=UserWallet::class, mappedBy="user", cascade={"persist", "remove"})
      */
-    private ?int $credits = 0;
+    private $userWallet;
 
     public function __construct()
     {
@@ -358,14 +363,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getCredits(): ?int
+//    public function getCredits(): ?int
+//    {
+//        return $this->credits;
+//    }
+//
+//    public function setCredits(int $credits): self
+//    {
+//        $this->credits = $credits;
+//
+//        return $this;
+//    }
+
+    public function getUserWallet(): ?UserWallet
     {
-        return $this->credits;
+        return $this->userWallet;
     }
 
-    public function setCredits(int $credits): self
+    public function setUserWallet(UserWallet $userWallet): self
     {
-        $this->credits = $credits;
+        // set the owning side of the relation if necessary
+        if ($userWallet->getUser() !== $this) {
+            $userWallet->setUser($this);
+        }
+
+        $this->userWallet = $userWallet;
 
         return $this;
     }

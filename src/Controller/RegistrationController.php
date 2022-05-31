@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\User;
+use App\Entity\UserWallet;
 use App\Form\RegistrationFormType;
 use App\Repository\UserRepository;
 use App\Security\AppAuthenticator;
@@ -35,6 +36,10 @@ class RegistrationController extends AbstractController
     public function register(SluggerInterface $slugger, Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
         $user = new User();
+        $userWallet = new UserWallet();
+
+        $userWallet->setUser($user)->setCredits(0);
+
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
 
@@ -63,6 +68,7 @@ class RegistrationController extends AbstractController
             }
 
 
+            $entityManager->persist($userWallet);
             $entityManager->persist($user);
             $entityManager->flush();
 

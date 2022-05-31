@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\FavArticle;
+use App\Entity\Transactions;
 use App\Entity\User;
 use App\Form\RegistrationFormType;
 use App\Form\UserFormType;
@@ -103,12 +104,29 @@ class UserController extends AbstractController
      */
     public function addCredits($amount): Response
     {
-            $user = $this->getUser();
-            $userC = $user->getCredits();
-            $userNewC = $userC + $amount;
-            $user->setCredits($userNewC);
-            $this->em->persist($user);
-            $this->em->flush();
+//            $user = $this->getUser();
+//            $userC = $user->getCredits();
+//            $userNewC = $userC + $amount;
+//            $user->setCredits($userNewC);
+//            $this->em->persist($user);
+//            $this->em->flush();
+
+        $user = $this->getUser();
+        $userWallet = $user->getUserWallet();
+        $userC = $userWallet->getCredits();
+
+        $userNewC = $userC + $amount;
+        $userWallet->setCredits($userNewC);
+
+        $transaction = new Transactions();
+        $transaction->setWallet($userWallet)->setAmount($amount)->setType("buyCredits");
+
+
+        $this->em->persist($userWallet);
+        $this->em->persist($transaction);
+        $this->em->flush();
+
+
 
         return $this->redirectToRoute('app_user_credits');
     }

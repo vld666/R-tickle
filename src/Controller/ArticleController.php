@@ -5,7 +5,10 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\FavArticle;
 use App\Entity\PaidArticles;
+use App\Entity\Settings;
+use App\Entity\Transactions;
 use App\Entity\User;
+use App\Entity\UserWallet;
 use App\Form\ArticleFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -68,16 +71,57 @@ class ArticleController extends AbstractController
     {
         /** @var $user User */
         $user = $this->getUser();
+        $userWallet = $user->getUserWallet();
+
         $articlePrice = $article->getPrice();
-        $userCredits = $user->getCredits();
+
+        $userCredits = $userWallet->getCredits();
+
+        $publisherWallet = $article->getPublishedBy()->getUserWallet();
+        $publisherCredits = $publisherWallet->getCredits();
+
+        $platformFee = $this->em->getRepository(Settings::class)->getPlatformFee();
+        $platFormWallet = $this->em->getRepository(UserWallet::class)->findOneBy(['id'=>1]);
+        $platformWalletCredits = $platFormWallet->getCredits();
+
+
 
         if ($userCredits >= $articlePrice){
             $paidArticle = new PaidArticles();
+            $transactionBuy = new Transactions();
+            $transactionPublisherFee = new Transactions();
+            $transactionPlatformFee = new Transactions();
 
             $paidArticle->setUser($user)->setArticle($article);
             $this->em->persist($paidArticle);
 
-            $user->setCredits($userCredits - $articlePrice);
+            $userWallet->setCredits($userCredits - $articlePrice);
+
+            $publisherWallet->setCredits($publisherCredits + ($articlePrice*0.5));
+            $this->em->persist($publisherWallet);
+
+            $platFormWallet->setCredits($platformWalletCredits + ($articlePrice * $platformFee));
+
+            $transactionBuy
+                ->setWallet($userWallet)
+                ->setAmount(-$articlePrice)
+                ->setType("buyArticle");
+            $this->em->persist($transactionBuy);
+
+
+            $transactionPublisherFee
+                ->setWallet($publisherWallet)
+                ->setAmount($articlePrice - ($articlePrice * $platformFee))
+                ->setType("publisherFee");
+            $this->em->persist($transactionPublisherFee);
+
+            $transactionPlatformFee
+                ->setWallet($platFormWallet)
+                ->setAmount($articlePrice * $platformFee)
+                ->setType("platformFee");
+            $this->em->persist($transactionPlatformFee);
+
+
 
             $this->em->flush();
         }else{

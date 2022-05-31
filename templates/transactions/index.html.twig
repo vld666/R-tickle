@@ -1,0 +1,35 @@
+{% extends './base.html.twig' %}
+
+{% block body %}
+transactions
+
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">type</th>
+                        <th scope="col">amount</th>
+                        <th scope="col">wallet-ID</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for transaction in transactions %}
+
+                        <tr>
+                        <td>{{ transaction.id }}</td>
+                        <td>{{ transaction.type }}</td>
+                        <td>{{ transaction.amount }}</td>
+                        <td>{{ transaction.wallet.id }}</td>
+                    </tr>
+                    {% endfor %}
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
