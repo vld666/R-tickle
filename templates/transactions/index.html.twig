@@ -13,6 +13,8 @@ transactions
                         <th scope="col">type</th>
                         <th scope="col">amount</th>
                         <th scope="col">wallet-ID</th>
+                        <th scope="col">created</th>
+
                     </tr>
                     </thead>
                     <tbody>
@@ -22,8 +24,16 @@ transactions
                         <td>{{ transaction.id }}</td>
                         <td>{{ transaction.type }}</td>
                         <td>{{ transaction.amount }}</td>
-                        <td>{{ transaction.wallet.id }}</td>
-                    </tr>
+                        <td>
+                            {% if transaction.wallet %}
+                                {{ transaction.wallet.id }}
+                            {% else %}
+                                <span>platform</span>
+                            {% endif %}
+                        </td>
+                        <td>{{ transaction.createdAt|date('d-m-Y h:m:s') }}</td>
+
+                        </tr>
                     {% endfor %}
 
                     </tbody>

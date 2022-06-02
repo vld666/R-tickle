@@ -24,27 +24,46 @@ class RegistrationFormType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username')
-            ->add('agreeTerms', CheckboxType::class, [
-                'mapped' => false,
-                'constraints' => [
-                    new IsTrue([
-                        'message' => 'You should agree to our terms.',
-                    ]),
-                ],
+            ->add('username', TextType::class, [
+                    'constraints'  => [
+                        new NotNull([
+                            'message' => "Username can't be null"
+                        ])
+                    ],
+                    'label' => false,
+                    'attr' => ['placeholder' => 'Username']
             ])
+//            ->add('agreeTerms', CheckboxType::class, [
+//                'mapped' => false,
+//                'constraints' => [
+//                    new IsTrue([
+//                        'message' => 'You should agree to our terms.',
+//                    ]),
+//                ],
+//            ])
             ->add('mail', TextType::class, [
                 'constraints' => [
                     new NotNull([
                         'message' => 'Fail :( Mail field should not be empty'
                     ])
-                ]
+                ],
+                'label' => false,
+                'attr' => ['placeholder' => 'Mail']
             ])
-            ->add('firstName', TextType::class)
-            ->add('lastName', TextType::class)
-            ->add('phone', TextType::class)
+            ->add('firstName', TextType::class,[
+                'label' => false,
+                'attr' => ['placeholder' => 'First Name']
+            ])
+            ->add('lastName', TextType::class,[
+                'label' => false,
+                'attr' => ['placeholder' => 'Last Name']
+            ])
+            ->add('phone', TextType::class,[
+                'label' => false,
+                'attr' => ['placeholder' => 'Phone number']
+            ])
             ->add('profilePicture', FileType::class, [
-                'label' => 'Profile picture',
+                'label' => false,
                 'attr' => ['placeholder' => 'aaa'],
                 'mapped' => false,
                 'required' => false,
@@ -64,7 +83,11 @@ class RegistrationFormType extends AbstractType
                 // instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,
-                'attr' => ['autocomplete' => 'new-password'],
+                'label' => false,
+                'attr' => [
+                    'autocomplete' => 'new-password',
+                    'placeholder' => 'Password'
+                ],
                 'constraints' => [
                     new NotBlank([
                         'message' => 'Please enter a password',
@@ -85,6 +108,7 @@ class RegistrationFormType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => User::class,
+            'csrf_token' => false,
         ]);
     }
 }

@@ -7,15 +7,129 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-    <h1>Register</h1>
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.username) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+{#    {{ form_start(registrationForm) }}#}
+{#        {{ form_row(registrationForm.username) }}#}
+{#        {{ form_row(registrationForm.plainPassword, {#}
+{#            label: 'Password'#}
+{#        }) }}#}
+{#        {{ form_row(registrationForm.agreeTerms) }}#}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+{#        <button type="submit" class="btn">Register</button>#}
+{#    {{ form_end(registrationForm) }}#}
+
+{#    <div class="container">#}
+{#        <div class="row text-center">#}
+{#            <h1>Register</h1>#}
+{#        </div>#}
+{#        <div class="row">#}
+{#            <div class="col ">#}
+{#                <div class="container d-flex justify-content-center form-container">#}
+
+{#                    {{ form_start(registrationForm) }}#}
+
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.username, {'attr' : {'class': 'formInput'}}) }}#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.plainPassword, {'attr' : {'class': 'formInput'}}) }}#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.mail, {'attr' : {'class': 'formInput'}}) }}#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.phone, {'attr' : {'class': 'formInput'}}) }}#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.firstName, {'attr' : {'class': 'formInput'}}) }}#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.lastName, {'attr' : {'class': 'formInput'}}) }}#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.profilePicture) }}#}
+{#                    </div>#}
+{#                    <div class="row">#}
+{#                        {{ form_row(registrationForm.submit, {'attr' : {'class': 'formSubmit'}}) }}#}
+{#                    </div>#}
+
+{#                    {{ form_end(registrationForm,{'render_rest': false}) }}#}
+{#                </div>#}
+
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+    <div class="container">
+        <div class="container d-flex justify-content-center w-50 p-3 py-5 mt-4 form-container">
+            {{ form_start(registrationForm) }}
+
+            <div class="row">
+                <h1 class="text-center text-light">Register</h1>
+            </div>
+
+            <hr class="text-light mb-4">
+
+            <div class="row">
+                {{ form_row(registrationForm.username, {'attr' : {'class': 'form-input text-center'}}) }}
+            </div>
+            <div class="row">
+                {{ form_row(registrationForm.plainPassword, {'attr' : {'class': 'form-input text-center'}}) }}
+            </div>
+            <div class="row">
+                {{ form_row(registrationForm.mail, {'attr' : {'class': 'form-input text-center'}}) }}
+            </div>
+            <div class="row">
+                {{ form_row(registrationForm.phone, {'attr' : {'class': 'form-input text-center'}}) }}
+            </div>
+            <div class="row">
+                {{ form_row(registrationForm.firstName, {'attr' : {'class': 'form-input text-center'}}) }}
+            </div>
+            <div class="row">
+                {{ form_row(registrationForm.lastName, {'attr' : {'class': 'form-input text-center'}}) }}
+            </div>
+            <div class="row">
+                {{ form_row(registrationForm.profilePicture) }}
+            </div>
+            <div class="row">
+                {{ form_row(registrationForm.submit, {'attr' : {'class': 'form-submit btn btn-success'}}) }}
+            </div>
+
+            {{ form_end(registrationForm,{'render_rest': false}) }}
+        </div>
+    </div>
+
+
+    <style>
+        .form-input{
+            width: 100%;
+            height: 40px;
+            margin-bottom: 10px;
+            border-radius: 8px;
+            border: 2px solid #000000;
+            box-shadow: #262626 0 1px  3px 1px;
+
+        }
+
+        .form-container{
+            width: 500px;
+            /*box-shadow: #414141 0 2px 8px 1px;*/
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+            border-radius: 12px;
+        }
+
+        .form-submit{
+            width: 100%;
+            height: 50px;
+            margin-top: 25px;
+            box-shadow: #262626 0 1px  10px 1px;
+            border-radius: 8px;
+
+
+
+        }
+
+    </style>
+
 {% endblock %}

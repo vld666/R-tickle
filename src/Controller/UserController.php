@@ -34,8 +34,6 @@ class UserController extends AbstractController
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
-//        $pass = $user->getPassword();
-
         if ($form->isSubmitted() && $form->isValid()) {
             $this->em->persist($user);
             $this->em->flush();
@@ -80,24 +78,7 @@ class UserController extends AbstractController
         ]);
     }
 
-//
-//    /**
-//     * @Route("/user/credits/add100", name="app_user_credits_add100"}
-//     */
-//    public function add100(): Response
-//    {
-////        $user = $this->getUser();
-////        $userC = $user->getCredits();
-////
-////        $userNewC = $userC + 100;
-////
-////        $user->setCredits($userNewC);
-////        $this->em->persist($user);
-////        $this->em->flush();
-//
-//        return $this->redirectToRoute('app_user_credits');
-//
-//    }
+
 
     /**
      * @Route("/user/credits/add/{amount}", methods={"GET", "POST"}, name="app_user_creditsAdd")
@@ -131,6 +112,16 @@ class UserController extends AbstractController
         return $this->redirectToRoute('app_user_credits');
     }
 
+
+    /**
+     * @Route("/user/credits/notEnough", methods={"GET", "POST"}, name="app_user_notEnoughCredits")
+     */
+    public function notEnoughCredits(): Response
+    {
+
+
+        return $this->render('/user/notEnoughCredits.html.twig');
+    }
 
 
 

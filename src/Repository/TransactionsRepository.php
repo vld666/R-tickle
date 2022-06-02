@@ -63,4 +63,13 @@ class TransactionsRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function getTotalSales(){
+        $qb = $this->createQueryBuilder('t')
+            ->where('t.type = :type')
+            ->setParameter('type', 'platformFee')
+            ->select('sum(t.amount)')
+            ;
+        return $qb->getQuery()->getSingleScalarResult();
+    }
 }

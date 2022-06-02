@@ -80,9 +80,9 @@ class ArticleController extends AbstractController
         $publisherWallet = $article->getPublishedBy()->getUserWallet();
         $publisherCredits = $publisherWallet->getCredits();
 
-        $platformFee = $this->em->getRepository(Settings::class)->getPlatformFee();
-        $platFormWallet = $this->em->getRepository(UserWallet::class)->findOneBy(['id'=>1]);
-        $platformWalletCredits = $platFormWallet->getCredits();
+        $platformFee = $article->getPublishedBy()->getPlatformFee();
+//        $platFormWallet = $this->em->getRepository(UserWallet::class)->findOneBy(['id'=>1]);
+//        $platformWalletCredits = $platFormWallet->getCredits();
 
 
 
@@ -97,16 +97,17 @@ class ArticleController extends AbstractController
 
             $userWallet->setCredits($userCredits - $articlePrice);
 
-            $publisherWallet->setCredits($publisherCredits + ($articlePrice*0.5));
+            $publisherWallet->setCredits($publisherCredits + ($articlePrice * $platformFee));
             $this->em->persist($publisherWallet);
 
-            $platFormWallet->setCredits($platformWalletCredits + ($articlePrice * $platformFee));
+//            $platFormWallet->setCredits($platformWalletCredits + ($articlePrice * $platformFee));
 
             $transactionBuy
                 ->setWallet($userWallet)
                 ->setAmount(-$articlePrice)
                 ->setType("buyArticle");
             $this->em->persist($transactionBuy);
+
 
 
             $transactionPublisherFee
@@ -116,16 +117,13 @@ class ArticleController extends AbstractController
             $this->em->persist($transactionPublisherFee);
 
             $transactionPlatformFee
-                ->setWallet($platFormWallet)
                 ->setAmount($articlePrice * $platformFee)
                 ->setType("platformFee");
             $this->em->persist($transactionPlatformFee);
 
-
-
             $this->em->flush();
         }else{
-            return $this->redirectToRoute('app_user_profile');
+            return $this->redirectToRoute('app_user_notEnoughCredits');
         }
 
 
@@ -140,6 +138,7 @@ class ArticleController extends AbstractController
     public function createAction(Request $request, SluggerInterface $slugger): Response
     {
         $article = new Article();
+        $paidArticle = new PaidArticles();
         $form = $this->createForm(ArticleFormType::class, $article);
         $form->handleRequest($request);
 
@@ -161,6 +160,7 @@ class ArticleController extends AbstractController
 
                 $article->setImage($newFileName);
             }
+
             $article->setPublishedBy($publisher);
             $article->setVisible(1);
 

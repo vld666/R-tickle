@@ -101,6 +101,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $userWallet;
 
+    /**
+     * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
+     */
+    private $platformFee = 0.50;
+
+
     public function __construct()
     {
         $this->articles = new ArrayCollection();
@@ -363,17 +369,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-//    public function getCredits(): ?int
-//    {
-//        return $this->credits;
-//    }
-//
-//    public function setCredits(int $credits): self
-//    {
-//        $this->credits = $credits;
-//
-//        return $this;
-//    }
 
     public function getUserWallet(): ?UserWallet
     {
@@ -391,4 +386,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+    public function getPlatformFee(): ?string
+    {
+        return $this->platformFee;
+    }
+
+    public function setPlatformFee(?string $platformFee): self
+    {
+        $this->platformFee = $platformFee;
+
+        return $this;
+    }
+
+
 }

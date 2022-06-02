@@ -25,7 +25,7 @@ class Transactions
 
     /**
      * @ORM\ManyToOne(targetEntity=UserWallet::class, inversedBy="transactions")
-     * @ORM\JoinColumn(nullable=false)
+     * @ORM\JoinColumn(nullable=true)
      */
     private $wallet;
 
