@@ -4,11 +4,11 @@ namespace App\Controller;
 
 use App\Entity\Transactions;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-class TransactionsController extends AbstractController
+class TransactionsController extends ApiController
 {
     private $em;
 
@@ -29,4 +29,43 @@ class TransactionsController extends AbstractController
         ]);
 
     }
+
+    /**
+     * @Route("/api/transactions/show/{id}", methods={"GET"})
+     */
+    public function apiTransactionsIndex(Transactions $transaction): Response
+    {
+        $transaction = $this->em->getRepository(Transactions::class)->showTransaction($transaction);
+
+        $response = new JsonResponse($transaction);
+        $response->setEncodingOptions($response->getEncodingOptions() | JSON_PRETTY_PRINT);
+
+        return $this->respond($transaction);
+    }
+
+    /**
+     * @Route("/api/transactions/index", methods={"GET"})
+     */
+    public function apiShowCategories(): Response
+    {
+        $transactions = $this->em->getRepository(Transactions::class)->findAll();
+        $arrayCollection = array();
+
+        foreach($transactions as $transaction){
+            $arrayCollection[] = array(
+                'id' => $transaction->getId(),
+                'wallet' => $transaction->getWalletId(),
+                'amount' => $transaction->getAmount(),
+                'type' => $transaction->getType(),
+                'createdAt' => $transaction->getCreatedAt()
+            );
+        }
+
+        $response = new JsonResponse($arrayCollection);
+        $response->setEncodingOptions($response->getEncodingOptions() | JSON_PRETTY_PRINT);
+
+        return $response;
+    }
+
+
 }

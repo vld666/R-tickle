@@ -72,4 +72,14 @@ class TransactionsRepository extends ServiceEntityRepository
             ;
         return $qb->getQuery()->getSingleScalarResult();
     }
+
+    public function showTransaction(Transactions $transaction)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('t')
+            ->andWhere('t.id = :id')
+            ->setParameter('id', $transaction);
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

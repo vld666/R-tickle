@@ -146,7 +146,7 @@ class CategoryController extends ApiController
         $this->em->persist($category);
         $this->em->flush();
 
-        return $this->respond('ok');
+        return $this->respond('Category updated!');
 
     }
 
@@ -170,7 +170,7 @@ class CategoryController extends ApiController
         $this->em->remove($category);
         $this->em->flush();
 
-        return $this->respond('ok');
+        return $this->respond('Category deleted!');
     }
 
 }

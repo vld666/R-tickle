@@ -1,45 +1,71 @@
 {% extends './base.html.twig' %}
 
-{% block body %}
-transactions
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/table.css') }}" rel="stylesheet">
+{% endblock %}
 
-    <div class="container">
-        <div class="row">
+{% block body %}
+
+    <div class="container w-75">
+        <div class="row mt-4">
+            <div class="col d-flex justify-content-center">
+                <span class="h1 title">Transactions</span>
+            </div>
+        </div>
+        <div class="row mt-2">
             <div class="col">
-                <table class="table">
+                <table class="table table-bordered table-dark table-hover mb-3" id="transactions">
                     <thead>
                     <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">type</th>
-                        <th scope="col">amount</th>
-                        <th scope="col">wallet-ID</th>
-                        <th scope="col">created</th>
-
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Wallet</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">Created-at</th>
                     </tr>
                     </thead>
-                    <tbody>
-                    {% for transaction in transactions %}
-
-                        <tr>
-                        <td>{{ transaction.id }}</td>
-                        <td>{{ transaction.type }}</td>
-                        <td>{{ transaction.amount }}</td>
-                        <td>
-                            {% if transaction.wallet %}
-                                {{ transaction.wallet.id }}
-                            {% else %}
-                                <span>platform</span>
-                            {% endif %}
-                        </td>
-                        <td>{{ transaction.createdAt|date('d-m-Y h:m:s') }}</td>
-
-                        </tr>
-                    {% endfor %}
-
-                    </tbody>
                 </table>
             </div>
         </div>
     </div>
+
+    <script>
+        $(document).ready( function () {
+            $("th").addClass("text-danger");
+            let table = $('#transactions').DataTable({
+                order: [[4, 'desc']],
+                "processing": true,
+                "columns": [
+                    { "data": "id" },
+                    { "data": "wallet" },
+                    { "data": "amount" },
+                    { "data": "type" },
+                    { "data": "createdAt.date" },
+                ],
+                "serverSide": false,
+                fixedHeader: {
+                    header: true,
+                    headerOffset: 45,
+                },
+                ajax: {
+                    'url': '/api/transactions/index/',
+                    "dataSrc": "",
+                },
+            });
+        })
+
+    </script>
+
+    <style>
+        .title{
+            text-shadow: #6e6e6e 0 2px 6px;
+        }
+    </style>
 
 {% endblock %}
