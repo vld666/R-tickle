@@ -71,4 +71,14 @@ class CategoryRepository extends ServiceEntityRepository
 //            ->getOneOrNullResult()
 //        ;
 //    }
+
+    public function showCategory(Category $category)
+    {
+        $qb = $this->createQueryBuilder('c')
+            ->select('c')
+            ->andWhere('c.id = :id')
+            ->setParameter('id', $category);
+
+        return $qb->getQuery()->getArrayResult();
+    }
 }

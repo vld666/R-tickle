@@ -1,43 +1,226 @@
 {% extends './base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+{% endblock %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/table.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block modals %}
+    <div class="modalWrap d-flex justify-content-center">
+        <div class="createModal position-absolute text-center" id="modal">
+
+            <div class="row m-3">
+                <div class="col">
+                    <span class="h2 text-warning text-middle my-auto modal-title">Create category</span>
+                    <span class="position-absolute xSpan">
+                        <i class="fa-solid fa-xmark text-danger" id="closeModal" style="cursor: pointer; font-size: 2rem;"></i>
+                    </span>
+                </div>
+            </div>
+
+            <hr class="m-0 mb-4 text-light">
+
+            <div class="row form">
+                <div class="col">
+                    {{ form_start(categoryForm) }}
+
+                        <div class="row px-4 m-3 mt-4 text-middle">
+                            {{ form_widget(categoryForm.name) }}
+                        </div>
+
+                        <div class="row px-4 m-3 text-center">
+                            {{ form_widget(categoryForm.description) }}
+                        </div>
+
+                        <div class="row px-4 m-3 text-center">
+                            {{ form_widget(categoryForm.color) }}
+                        </div>
+
+                        <div class="row px-4 m-3 my-4">
+                            {{ form_widget(categoryForm.submit, {'attr' : {'class': 'btn btn-success'}}) }}
+                        </div>
+
+                    {{ form_end(categoryForm) }}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block body %}
+    <div class="container w-75">
+        <div class="row mt-4">
+            <div class="col d-flex justify-content-center">
+                <span class="h1 title">Categories</span>
+            </div>
 
+            <div class="col mb-4">
+                <div class="btn btn-success w-100" id="createBtn">+ Create Category</div>
 
-    <div class="container w-50 mb-5">
-        <table class="table table-hover text-center">
-            <thead>
-            <tr class="border-secondary">
-                <th>ID</th>
-                <th>Name</th>
-                <th>Desc</th>
-                <th>color</th>
-                <th class="actions">Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            {% for category in categories %}
-                <tr class="tr">
-                    <td>{{ category.id }}</td>
-                    <td>{{ category.name }}</td>
-                    <td>
-                        {% if category.description %}
-                        {{ category.description }}
-                        {% else %}
-                            <span class="text-muted">none</span>
-                        {% endif %}
-                    </td>
-                    <td style="background-color: {{ category.color }}">{{ category.color }}</td>
-                    <td>
-                        <a href="#" style="text-decoration: none">
-                            <button class="btn btn-warning btn-sm">Edit</button>
-                        </a>
-                        <a href="{{ path('app_category_delete', {id: category.id}) }}" style="text-decoration: none">
-                            <button class="btn btn-danger btn-sm">Delete</button>
-                        </a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+            </div>
+        </div>
+
+        <div class="row mt-2">
+            <div class="col">
+                <table class="table table-bordered table-dark table-hover mb-3" id="category">
+                    <thead>
+                        <tr>
+                            <th class="text-center">ID</th>
+                            <th class="text-center">Name</th>
+                            <th class="text-center">Description</th>
+                            <th class="text-center">Color code</th>
+                            <th colspan="2" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
 
+    <script>
+        $(document).ready( function () {
+            $("th").addClass("text-danger");
+            let table = $('#category').DataTable({
+                "columnDefs": [ {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent":
+                        "<div class='row'>" +
+                        "<div class='col'> " +
+                        "<a class='btn btn-sm btn-warning' id='edit'>Edit</a>" +
+                        "</div>"+
+
+                        "<div class='col'> " +
+                        "<a class='btn btn-sm btn-danger' id='delete'>Delete</a>" +
+                        "</div>" +
+                        "</div>"
+                }],
+                "processing": true,
+                "columns": [
+                    { "data": "id" },
+                    { "data": "name" },
+                    { "data": "description" },
+                    { "data": "color" },
+                    {"data": ""}
+                ],
+                "serverSide": false,
+                fixedHeader: {
+                    header: true,
+                    headerOffset: 45,
+                },
+                ajax: {
+                    'url': '/api/category/index/',
+                    "dataSrc": "",
+                },
+            });
+
+            $('#category').on('click', '#delete', function() {
+                let id = table.row( $(this).parents('tr') ).data();
+
+                $.ajax({
+                    url: '/api/category/delete/' + id['id'],
+                    type: 'DELETE',
+                    DataType: 'json',
+                    "dataSrc": "id",
+                    "beforeSend": function() {
+                        return confirm("Are you sure you want to delete this category?");
+                    },
+                    "statusCode": {
+                        200: function() {
+                            alert("Category deleted!");
+                            window.location.reload();
+                        },
+                        404: function() {
+                            alert("ID not found in DB");
+                            window.location.reload();
+                        }
+                    }
+                });
+            });
+
+            $('#category').on('click', '#edit', function() {
+                let categoryId = table.row( $(this).parents('tr') ).data();
+                window.location.href = '/category/edit/' + categoryId['id'];
+            });
+        })
+
+        const modal = document.getElementById('modal')
+        const btnOn = document.getElementById('createBtn')
+        const btnClose = document.getElementById('closeModal')
+
+        btnOn.addEventListener('click',()=>{
+            modal.classList.toggle("modalOn")
+            body.classList.toggle("body-modal-on")
+        })
+
+        btnClose.addEventListener('click',()=>{
+            modal.classList.remove("modalOn")
+            body.classList.remove("body-modal-on")
+        })
+    </script>
+
+    <style>
+
+
+        .createModal{
+            width: 30vw;
+            height: 55vh;
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+            z-index: 2;
+            border: 4px solid #1a1a1a;
+            top: 15vh;
+            display: none;
+            border-radius: 30px;
+            box-shadow: #000000 0 3px 10px;
+        }
+
+        .modalOn{
+            display: block;
+        }
+
+        .body-modal-on{
+            filter: blur(2px) grayscale(1);
+            pointer-events: none;
+        }
+
+        .xSpan{
+            right: 18px;
+        }
+
+        .form input{
+            text-align: center;
+            height: 40px;
+            border-radius: 10px;
+            border: none;
+        }
+
+        .form button{
+            box-shadow: #262626 0 1px  10px 1px;
+            height: 50px;
+            border-radius: 10px;
+        }
+
+        #createBtn{
+            height: 60px;
+            line-height: 60px;
+            padding: 0;
+            font-weight: bold;
+            font-size: 18px;
+            box-shadow: #343434 0 2px 4px;
+        }
+
+        .title{
+            line-height: 60px;
+            text-shadow: #6e6e6e 0 2px 6px;
+        }
+
+        .modal-title{
+            text-shadow: #000000 0 1px 10px;
+        }
+    </style>
 {% endblock %}

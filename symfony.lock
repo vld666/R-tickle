@@ -86,6 +86,15 @@
     "friendsofphp/proxy-manager-lts": {
         "version": "v1.0.12"
     },
+    "friendsofsymfony/rest-bundle": {
+        "version": "3.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "main",
+            "version": "2.2",
+            "ref": "fa845143b7e0a4c70aedd1a88c549e6d977e9ae5"
+        }
+    },
     "gedmo/doctrine-extensions": {
         "version": "v3.1.0"
     },
@@ -536,7 +545,16 @@
     "twig/twig": {
         "version": "v3.3.10"
     },
+    "webinarium/datatables-bundle": {
+        "version": "2.4.2"
+    },
     "webmozart/assert": {
         "version": "1.10.0"
+    },
+    "willdurand/jsonp-callback-validator": {
+        "version": "v2.0.0"
+    },
+    "willdurand/negotiation": {
+        "version": "3.1.0"
     }
 }

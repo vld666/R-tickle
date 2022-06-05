@@ -1,0 +1,15 @@
+td{
+    text-align: center;
+}
+
+table {
+    box-shadow: #414141 0 1px 10px 0;
+}
+
+.dataTables_length label, .dataTables_filter label, .dataTables_info, #category_paginate{
+    font-weight: bold;
+}
+
+.dataTables_filter{
+    margin-bottom: 20px;
+}
