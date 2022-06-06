@@ -1,48 +1,104 @@
 {% extends './base.html.twig' %}
+{% block javascripts %}
+    {{ parent() }}
+    <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
+{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/table.css') }}" rel="stylesheet">
+{% endblock %}
 {% block body %}
-
-    <div class="container w-75 mb-5">
-        <table class="table table-hover">
-            <thead>
-            <tr class="border-secondary">
-                <th>ID</th>
-                <th>Full name</th>
-                <th>Username</th>
-                <th>Roles</th>
-                <th>Mail</th>
-                <th>Phone</th>
-
-            </tr>
-            </thead>
-            <tbody>
-            {% for user in users %}
-                <tr class="tr">
-                    <td>{{ user.id }}</td>
-                    <td>{{ user.fullName }}</td>
-                    <td>{{ user.username }}</td>
-
-                    {% if 'ROLE_ADMIN' in user.roles %}
-                        <td>Admin</td>
-                    {% else %}
-                        <td>User</td>
-                    {% endif %}
-
-                    <td>{{ user.mail }}</td>
-                    <td>{{ user.phone }}</td>
-
-
-                    {#                    <td>#}
-{#                        <a href="{{ path('app_order_details', {id: order.id}) }}" style="text-decoration: none">#}
-{#                            <button class="btn btn-warning btn-sm">Details</button>#}
-{#                        </a>#}
-
-{#                    </td>#}
-                </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <div class="container w-100">
+        <div class="row mt-2">
+            <div class="col">
+                <table class="table table-bordered table-dark table-hover mb-3" id="users">
+                    <thead>
+                    <tr>
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Username</th>
+                        <th class="text-center">Mail</th>
+                        <th class="text-center">Phone</th>
+                        <th class="text-center">Full Name</th>
+                        <th class="text-center">Platform Fee</th>
+                        <th class="text-center">Actions</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
     </div>
+
+    <script>
+        $(document).ready( function () {
+            $("th").addClass("text-danger");
+            let table = $('#users').DataTable({
+                "columnDefs": [ {
+                    "targets": -1,
+                    "data": null,
+                    "defaultContent":
+                        "<div class='row'>" +
+                        "<div class='col'> " +
+                        "<a class='btn btn-sm btn-warning' id='edit'>Edit</a>" +
+                        "</div>"+
+
+                        "<div class='col'> " +
+                        "<a class='btn btn-sm btn-danger' id='delete'>Delete</a>" +
+                        "</div>" +
+                        "</div>"
+                }],
+                "processing": true,
+                "columns": [
+                    { "data": "id" },
+                    { "data": "username" },
+                    { "data": "mail" },
+                    { "data": "phone" },
+                    { "data": "fullName" },
+                    { "data": "platformFee" },
+                    {"data": ""}
+                ],
+                "serverSide": false,
+                fixedHeader: {
+                    header: true,
+                    headerOffset: 45,
+                },
+                ajax: {
+                    'url': '/api/user/index/',
+                    "dataSrc": "",
+                },
+            });
+
+            $('#users').on('click', '#delete', function() {
+                let id = table.row( $(this).parents('tr') ).data();
+
+                $.ajax({
+                    url: '/admin/api/user/delete/' + id['id'],
+                    type: 'DELETE',
+                    DataType: 'application/json',
+                    "dataSrc": "id",
+                    "beforeSend": function() {
+                        return confirm("Are you sure you want to delete this user?");
+                    },
+                    "statusCode": {
+                        200: function() {
+                            alert("User deleted!");
+                            window.location.reload();
+                        },
+                        404: function() {
+                            alert("User ID not found in DB");
+                            window.location.reload();
+                        }
+                    },
+                });
+            });
+
+            $('#users').on('click', '#edit', function() {
+                let userId = table.row( $(this).parents('tr') ).data();
+                window.location.href = '/admin/user/edit/' + userId['id'];
+            });
+        })
+
+    </script>
 
 
 {% endblock %}

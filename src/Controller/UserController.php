@@ -9,12 +9,13 @@ use App\Form\RegistrationFormType;
 use App\Form\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
-class UserController extends AbstractController
+class UserController extends ApiController
 {
     private $em;
 
@@ -67,13 +68,33 @@ class UserController extends AbstractController
         ]);
     }
 
+
+    /**
+     * @Route("/admin/user/edit/{id}", methods={"GET", "POST"}, name="app_user_edit")
+     */
+    public function editAction(Request $request, User $user): Response
+    {
+        $form = $this->createForm(UserFormType::class, $user);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $this->em->persist($user);
+            $this->em->flush();
+
+            $this->addFlash('success', 'Category updated!');
+        }
+
+        return $this->render('user/edit.html.twig',[
+            'userForm' => $form->createView()
+        ]);
+    }
+
+
     /**
      * @Route("/user/credits", methods={"GET", "POST"}, name="app_user_credits")
      */
-    public function credits(Request $request): Response
+    public function credits(): Response
     {
-
-
         return $this->render('/user/credits.html.twig',[
         ]);
     }
@@ -85,13 +106,6 @@ class UserController extends AbstractController
      */
     public function addCredits($amount): Response
     {
-//            $user = $this->getUser();
-//            $userC = $user->getCredits();
-//            $userNewC = $userC + $amount;
-//            $user->setCredits($userNewC);
-//            $this->em->persist($user);
-//            $this->em->flush();
-
         $user = $this->getUser();
         $userWallet = $user->getUserWallet();
         $userC = $userWallet->getCredits();
@@ -102,27 +116,51 @@ class UserController extends AbstractController
         $transaction = new Transactions();
         $transaction->setWallet($userWallet)->setAmount($amount)->setType("buyCredits");
 
-
         $this->em->persist($userWallet);
         $this->em->persist($transaction);
         $this->em->flush();
-
-
 
         return $this->redirectToRoute('app_user_credits');
     }
 
 
     /**
-     * @Route("/user/credits/notEnough", methods={"GET", "POST"}, name="app_user_notEnoughCredits")
+     * @Route("/api/user/index", methods={"GET"}, name="app_api_user_index")
      */
-    public function notEnoughCredits(): Response
+    public function apiUserList(): Response
     {
+        $users = $this->em->getRepository(User::class)->findAll();
+        $arrayCollection = array();
 
+        foreach($users as $user){
+            $arrayCollection[] = array(
+                'id' => $user->getId(),
+                'username' => $user->getUsername(),
+                'mail' => $user->getMail(),
+                'phone' => $user->getPhone(),
+                'fullName' => $user->getFullName(),
+                'platformFee' => $user->getPlatformFee(),
+                'createdAt' => $user->getCreatedAt(),
+            );
+        }
 
-        return $this->render('/user/notEnoughCredits.html.twig');
+        $response = new JsonResponse($arrayCollection);
+        $response->setEncodingOptions($response->getEncodingOptions() | JSON_PRETTY_PRINT);
+
+        return $response;
     }
 
+
+    /**
+     * @Route("/admin/api/user/delete/{id}", methods={"DELETE"}, name="app_api_user_delete")
+     */
+    public function apiDeleteAction(User $user): JsonResponse
+    {
+        $this->em->remove($user);
+        $this->em->flush();
+
+        return new JsonResponse('User deleted!');
+    }
 
 
 

@@ -165,12 +165,12 @@ class CategoryController extends ApiController
     /**
      * @Route("/api/category/delete/{id}", methods={"DELETE"}, name="app_api_category_delete")
      */
-    public function apiDeleteCategory(Category $category): Response
+    public function apiDeleteCategory(Category $category): JsonResponse
     {
         $this->em->remove($category);
         $this->em->flush();
 
-        return $this->respond('Category deleted!');
+        return new JsonResponse('Category deleted!');
     }
 
 }
