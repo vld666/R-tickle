@@ -26,58 +26,62 @@ class Article
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    private $id = null;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $title;
+    private $title;
 
     /**
      * @ORM\Column(type="text")
      */
-    private ?string $text;
+    private $text;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $image;
+    private $image;
 
     /**
      * @ORM\ManyToOne(targetEntity=Category::class, inversedBy="articles")
      */
-    private ?Category $category;
+    private $category;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="articles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $publishedBy;
+    private $publishedBy;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private ?bool $visible;
+    private $visible;
 
     /**
      * @ORM\OneToMany(targetEntity=FavArticle::class, mappedBy="article", orphanRemoval=true)
      */
-    private Collection $favArticles;
+    private $favArticles;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private ?bool $isPaid;
+    private $isPaid;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
      */
-    private ?int $price = 0;
+    private $price = 0;
 
     /**
      * @ORM\OneToMany(targetEntity=PaidArticles::class, mappedBy="article")
      */
     private $article;
+    /**
+     * @var ArrayCollection
+     */
+    private $user;
 
 
     public function __construct()

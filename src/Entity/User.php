@@ -28,73 +28,69 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    private $id = null;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
      */
-    private string $username;
+    private $username;
 
     /**
      * @ORM\Column(type="json")
      */
-    private array $roles = [];
+    private $roles = [];
 
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
      */
-    private string $password;
+    private $password;
 
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private ?string $mail;
+    private $mail;
 
     /**
      * @ORM\Column(type="string", length=20, nullable=true)
      */
-    private ?string $phone;
+    private $phone;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $profilePicture;
+    private $profilePicture;
 
     /**
      * @ORM\Column(type="boolean")
      */
-    private bool $isVerified = false;
+    private $isVerified = false;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $firstName;
+    private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $lastName;
+    private $lastName;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Article", mappedBy="publishedBy", orphanRemoval=true)
      */
-    private Collection $articles;
+    private $articles;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\FavArticle", mappedBy="user", orphanRemoval=true)
      */
-    private Collection $favArticles;
+    private $favArticles;
 
     /**
      * @ORM\OneToMany(targetEntity=PaidArticles::class, mappedBy="user")
      */
     private $paidArticles;
 
-//    /**
-//     * @ORM\Column(type="integer")
-//     */
-//    private ?int $credits = 0;
 
     /**
      * @ORM\OneToOne(targetEntity=UserWallet::class, mappedBy="user", cascade={"persist", "remove"})
@@ -105,6 +101,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @ORM\Column(type="decimal", precision=5, scale=2, nullable=true)
      */
     private $platformFee = 0.50;
+
+
+    /**
+     * @var ArrayCollection
+     */
+    private $user;
 
 
     public function __construct()

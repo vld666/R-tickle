@@ -27,13 +27,13 @@ class PaidArticles
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="article")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Article $article;
+    private $article;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="paidArticles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $user;
+    private $user;
 
     public function getId(): ?int
     {

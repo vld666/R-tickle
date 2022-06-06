@@ -22,19 +22,19 @@ class FavArticle
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private $id;
 
     /**
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="favArticles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?User $user;
+    private $user;
 
     /**
      * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="favArticles")
      * @ORM\JoinColumn(nullable=false)
      */
-    private ?Article $article;
+    private $article;
 
     public function getId(): ?int
     {

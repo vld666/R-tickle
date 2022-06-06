@@ -29,22 +29,22 @@ class Category
     /**
      * @ORM\Column(type="string", length=255, nullable=false)
      */
-    private ?string $name;
+    private $name;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $description;
+    private $description;
 
     /**
      * @ORM\OneToMany(targetEntity=Article::class, mappedBy="category")
      */
-    private Collection $articles;
+    private $articles;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private ?string $color;
+    private $color;
 
     public function __construct()
     {

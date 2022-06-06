@@ -2,43 +2,178 @@
 
 {% block body %}
 
-    <div class="container w-25">
+    <div class="container w-75 main mt-3">
         <div class="row">
             <div class="col">
+                <div class="row mb-3">
+                    <div class="d-flex justify-content-center">
+                       <span class="text text-center h1 text-warning">
+                            Are you sure you want to buy this R-tickle?
+                        </span>
+                    </div>
+                    <hr class="text-light mt-4 mb-0">
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="row mb-3">
+                    <div class="d-flex justify-content-center">
+                    </div>
+                </div>
+                <div class="row p-4 d-flex justify-content-center">
+                    <div class="card p-0" style="width: 90%">
 
-                <span>Are you sure you wanna buy:</span><br>
-                <span class="text-success">{{ article.title }}</span>
+
+                        {% if article.image %}
+                            <img src="{{ asset('uploads/photos/') }}{{ article.image }}" alt="img missing" class="card-img-top image">
+                        {% else %}
+                            <img src="{{ asset('uploads/photos/no-image.png') }}" alt="No image" class="card-img-top image" style="filter: invert(70%)">
+                        {% endif %}
+                        <div class="card-body mx-auto pt-0 text-center w-100">
+                            <div class="row pt-2 pb-2">
+
+                                {% if article.category %}
+                                    <div class="col-3">
+                                        <div class="category" style="background-color: {{ article.category.color }} ">
+                                            {{ article.category.name }}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="col-3">
+                                        <div class="category cat-none">
+                                            None
+                                        </div>
+                                    </div>
+                                {% endif %}
+                                <div class="col-3">
+
+                                </div>
+
+                                <div class="col-6">
+                                    <div class="publisher text-muted">
+                                        <p class="mx-0 my-0">
+                                            Publisher: {{ article.publishedBy.lastName }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <h5 class="card-title my-2">
+                                {{ article.title }}
+                            </h5>
+
+
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="col my-auto">
+                <div class="container w-75 summary">
+                    <div class="row">
+                        <div class="col">
+                            <div class="row">
+                                <div class="col d-flex justify-content-center">
+                                    <div class="h3 text-light">Your credits: <span class="text-info">{{ app.user.userWallet.credits }}</span> </div>
+                                </div>
+                            </div>
+                            <div class="col d-flex justify-content-center">
+                                <div class="row">
+                                    <div class="h3 text-light">R-tickle price: <span class="text-danger">{{ article.price }}</span> </div>
+                                </div>
+                            </div>
+                            <hr class="text-light">
+                            <div class="col d-flex justify-content-center mb-1">
+                                <div class="row">
+                                    {% if remainingCredits < 0 %}
+                                        <div class="alert alert-danger mt-2">Not enough credits!</div>
+                                    {% else %}
+                                        <div class="h3 text-light">New balance: <span class="text-success">{{ remainingCredits }}</span> </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col d-flex justify-content-center">
+                            {% if remainingCredits < 0 %}
+                                <div class="btn btn-success btn-lg buy disabled">BUY this R-tickle!</div>
+
+                            {% else %}
+                            <a href="{{ path('app_article_buy_ok', {id: article.id}) }}"> <div class="btn btn-success btn-lg buy">BUY this R-tickle!</div> </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <span class="text-light h4 m-2">or</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center">
+                            <a href="{{ path('app_user_credits') }}"> <div class="btn btn-danger btn-lg buy text-white">Get more credits</div> </a>
+                        </div>
+                    </div>
+
+                </div>
 
             </div>
         </div>
-
-        <hr>
-
-        <div class="row">
-            <div class="col">
-                <span>R-tickle price: <span class="text-danger">{{ article.price }}</span> credits</span>
-            </div>
-        </div>
-
-        <div class="row">
-            <div class="col">
-                <span class="text-muted">Your available credits: <span class="text-primary"> {{ app.user.userWallet.credits }} </span></span>
-            </div>
-        </div>
-        <br>
-
-        <div class="row">
-            <div class="col">
-                <span class="text-muted">Remaining after purchase: <span>{{ remainingCredits }}</span> </span>
-            </div>
-        </div>
-        <a href="{{ path('app_user_credits') }}">BUY MORE CREDITS</a>
-
-
-        <hr>
-
-        <a href="{{ path('app_article_buy_ok', {id: article.id}) }}">BUY THIS R-TICKLE</a>
     </div>
+
+    <style>
+        .main{
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+            box-shadow: #000000 2px 2px 15px 3px;
+            border: 4px solid #262626;
+            border-radius: 15px;
+            padding: 25px;
+        }
+
+        .cat-none{
+            background-color: #b06767;
+        }
+
+        .category{
+            border-radius: 13px;
+            color: white;
+        }
+
+        .card{
+            background-color: #ffffff;
+            border-radius: 15px 15px 5px 5px;
+            box-shadow: #6b6b6b 0 2px 7px 0;
+            min-height: 400px;
+        }
+
+        .image{
+            background-size: cover;
+            border-radius: 15px 15px 2px 2px;
+        }
+
+        .summary{
+            height: 100%;
+        }
+
+        .buy{
+            height: 70px;
+            width: 350px;
+            line-height: 70px;
+            margin: 0;
+            padding: 0;
+            font-size: 24px;
+            box-shadow: #1a1a1a 0 2px 10px 3px;
+            text-shadow: #262626 0 2px 2px;
+        }
+
+        .alert{
+            width: 350px;
+            text-align: center;
+        }
+    </style>
 
 
 {% endblock %}
