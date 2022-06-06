@@ -4,108 +4,244 @@
 
 {% block body %}
 
-    <div class="container d-flex justify-content-center mt-5">
-        <div class="row bg-info w-50 pb-4">
-            <div class="col">
+{#    <div class="container d-flex justify-content-center mt-5">#}
+{#        <div class="row bg-info w-50 pb-4">#}
+{#            <div class="col">#}
 
-                <div class="row">
-                    <div class="col d-flex justify-content-center">
-                        <p class="my-3">Create new
-                            <i class="fa-solid fa-feather-pointed" style="color: red; font-size: 1.2rem;"></i>
-                            <span class="m-0"> <span style="color: red;">R</span>-tickle</span>
-                        </p>
-                    </div>
+{#                <div class="row">#}
+{#                    <div class="col d-flex justify-content-center">#}
+{#                        <p class="my-3">Create new#}
+{#                            <i class="fa-solid fa-feather-pointed" style="color: red; font-size: 1.2rem;"></i>#}
+{#                            <span class="m-0"> <span style="color: red;">R</span>-tickle</span>#}
+{#                        </p>#}
+{#                    </div>#}
+{#                </div>#}
+
+{#                <hr class="mt-0">#}
+{#                {{ form_start(articleForm) }}#}
+{#                <div class="row">#}
+{#                    <div class="col-9">#}
+
+{#                        <div class="row">#}
+{#                            <div class="col d-flex justify-content-center">#}
+{#                                {{ form_label(articleForm.title) }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="row">#}
+{#                            <div class="col d-flex justify-content-center widget">#}
+{#                                {{ form_widget(articleForm.title) }}#}
+{#                            </div>#}
+{#                        </div>#}
+
+{#                        <div class="row">#}
+{#                            <div class="col d-flex justify-content-center">#}
+{#                                {{ form_label(articleForm.text) }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="row">#}
+{#                            <div class="col d-flex justify-content-center widget">#}
+{#                                {{ form_widget(articleForm.text) }}#}
+{#                            </div>#}
+{#                        </div>#}
+
+
+
+
+{#                    </div>#}
+
+{#                    <div class="col-3">#}
+{#                        <div class="row">#}
+{#                            <div class="col d-flex justify-content-center">#}
+{#                                {{ form_label(articleForm.category) }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="row">#}
+{#                            <div class="col d-flex justify-content-center widget">#}
+{#                                {{ form_widget(articleForm.category) }}#}
+{#                            </div>#}
+{#                        </div>#}
+
+{#                        <div class="row mt-4">#}
+{#                            <div class="col d-flex justify-content-center">#}
+{#                                {{ form_label(articleForm.image) }}#}
+{#                            </div>#}
+{#                        </div>#}
+{#                        <div class="row">#}
+{#                            <div class="col d-flex justify-content-center widget">#}
+{#                                {{ form_widget(articleForm.image) }}#}
+{#                            </div>#}
+{#                        </div>#}
+
+{#                        <div class="row mt-4">#}
+{#                            <div class="col d-flex justify-content-center">#}
+{#                                {{ form_row(articleForm.Submit) }}#}
+{#                            </div>#}
+{#                        </div>#}
+
+{#                    </div>#}
+{#                </div>#}
+{#                {{ form_end(articleForm) }}#}
+{#            </div>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+
+    <div class="container w-50 createCard p-4 text-white mt-4">
+        <div class="row">
+            <span class="h2 mt-0 mb-3 text-center text-warning">
+                Create new
+                <i class="fa-solid fa-feather-pointed" style="color: red; font-size: 1.6rem"></i>
+                <span class="logo h2">
+                    <span class="h2" style="color: red;">R</span>-tickle
+                </span>
+            </span>
+            <hr class="text-white">
+
+        </div>
+        {{ form_start(articleForm) }}
+        <div class="row">
+            <div class="col-8 me-0">
+                <div class="row my-2 mb-4">
+                    {{ form_row(articleForm.title) }}
                 </div>
-
-                <hr class="mt-0">
-                {{ form_start(articleForm) }}
+                <div class="row my-2">
+                    {{ form_row(articleForm.text) }}
+                </div>
+            </div>
+            <div class="col-4 ms-0">
                 <div class="row">
-                    <div class="col-9">
-
+                    <div class="col">
                         <div class="row">
-                            <div class="col d-flex justify-content-center">
-                                {{ form_label(articleForm.title) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col d-flex justify-content-center widget">
-                                {{ form_widget(articleForm.title) }}
-                            </div>
-                        </div>
-
-                        <div class="row">
-                            <div class="col d-flex justify-content-center">
-                                {{ form_label(articleForm.text) }}
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col d-flex justify-content-center widget">
-                                {{ form_widget(articleForm.text) }}
-                            </div>
-                        </div>
-
-
-
-
-                    </div>
-
-                    <div class="col-3">
-                        <div class="row">
-                            <div class="col d-flex justify-content-center">
+                            <div class="col d-flex justify-content-center mb-1 text-warning">
                                 {{ form_label(articleForm.category) }}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col d-flex justify-content-center widget">
+                            <div class="col d-flex justify-content-center">
                                 {{ form_widget(articleForm.category) }}
                             </div>
                         </div>
-
-                        <div class="row mt-4">
-                            <div class="col d-flex justify-content-center">
+                    </div>
+                </div>
+                <hr>
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <div class="col d-flex justify-content-center mb-1 text-warning">
                                 {{ form_label(articleForm.image) }}
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col d-flex justify-content-center widget">
+                            <div class="col d-flex justify-content-center">
                                 {{ form_widget(articleForm.image) }}
                             </div>
                         </div>
-
-                        <div class="row mt-4">
-                            <div class="col d-flex justify-content-center">
-                                {{ form_row(articleForm.Submit) }}
-                            </div>
-                        </div>
-
                     </div>
                 </div>
-                {{ form_end(articleForm) }}
-            </div>
+                <hr>
+                <div class="row">
+                    <div class="col d-flex justify-content-center">
+                        <div class="row">
+                            <div class="col text-warning">
+                                {{ form_label(articleForm.isPaid) }} &nbsp;
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                {{ form_widget(articleForm.isPaid) }}
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+                <hr>
+                <div class="row" id="priceRow" style="display: none">
+                    <div class="col  d-flex justify-content-center">
+                        <div class="row">
+                            <div class="col text-center">
+                                <div class="row text-warning mb-1">
+                                    {{ form_label(articleForm.price) }}
+
+                                </div>
+                                <div class="row">
+                                    {{ form_widget(articleForm.price) }}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+        <div class="row">
+            <div class="d-flex justify-content-center mt-2">
+                {{ form_row(articleForm.submit) }}
+            </div>
+        </div>
+        {{ form_end(articleForm) }}
     </div>
 
 
     <style>
         #article_form_title{
-            width: 400px;
+            width: 100%;
             height: 35px;
         }
 
         #article_form_text{
-            width: 400px;
-            height: 120px;
+            width: 100%;
+            height: 250px;
         }
 
-        #article_form_category, .container button, #article_form_image{
-            width: 100px;
+        /*#article_form_category, .container button, #article_form_image{*/
+        /*    width: 100px;*/
+        /*}*/
+
+        /*input[type="file"]{*/
+        /*    width: 51%;*/
+
+        /*}*/
+
+        /*.container .row{*/
+        /*    border: 1px solid red;*/
+        /*}*/
+
+        /*.container .col{*/
+        /*    border: 1px solid blue;*/
+        /*}*/
+
+        .createCard{
+            width: 55vw;
+            height: fit-content;
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+            border: 2px solid #1a1a1a;
+            top: 15vh;
+            border-radius: 30px;
         }
 
-        input[type="file"]{
-            width: 51%;
-
+        #article_form_submit{
+            width: 46vw;
+            height: 55px;
         }
+
+        #article_form_price, #article_form_category{
+        }
+
+        #article_form_category{
+            width: 60%;
+            height: 30px;
+        }
+
+
     </style>
+
+
+    <script>
+        $('#article_form_isPaid').click(function() {
+            $('#priceRow')[this.checked ? "show" : "hide"]();
+        })
+    </script>
 
 {% endblock %}
