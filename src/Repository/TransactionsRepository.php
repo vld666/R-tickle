@@ -82,4 +82,16 @@ class TransactionsRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
+
+
+    public function getUserTransactions($user)
+    {
+        $qb = $this->createQueryBuilder('t')
+            ->select('t')
+            ->where('t.wallet = :userWallet')
+            ->setParameter('userWallet', $user->getUserWallet()->getId())
+            ->orderBy('t.createdAt', 'desc')
+        ;
+        return $qb->getQuery()->getResult();
+    }
 }

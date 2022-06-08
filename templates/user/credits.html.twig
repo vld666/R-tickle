@@ -1,35 +1,326 @@
 {% extends './base.html.twig' %}
 
-{% block body %}
-    <div class="container">
-        <div class="row mb-3">
-            <div class="col">
-                <span>You have</span>
-                <span class="text-danger"> {{ app.user.userWallet.credits }}</span>
-                <span>credits.</span>
-            </div>
-        </div>
+{% block modals %}
+    <div class="modalWrap d-flex justify-content-center">
+        <div class="modal-base position-absolute text-center position-relative" id="modal">
 
-        <div class="row mb-2">
-            <div class="col">
-                <a href="{{ path('app_user_creditsAdd', {amount: 20}) }}" class="btn btn-info btn-sm">+20 credits</a>
+            <div class="row m-3">
+                <div class="col">
+                    <span class="h2 text-warning text-middle my-auto modal-title">Buy credits</span>
+                    <span class="position-absolute xSpan">
+                        <i class="fa-solid fa-xmark text-danger" id="closeModal" style="cursor: pointer; font-size: 2rem;"></i>
+                    </span>
+                </div>
             </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col">
-                <a href="{{ path('app_user_creditsAdd', {amount: 50}) }}" class="btn btn-info btn-sm">+50 credits</a>
-            </div>
-        </div>
-        <div class="row mb-2">
-            <div class="col">
-                <a href="{{ path('app_user_creditsAdd', {amount: 100}) }}" class="btn btn-info btn-sm">+100 credits</a>
-            </div>
-        </div>
 
-        <div class="row">
-            <div class="col">
-                <a href="{{ path('app_user_creditsAdd', {amount: -100}) }}" class="btn btn-danger btn-sm">-100 credits</a>
+            <hr class="m-0 mb-4 text-light">
+
+            <div class="row mt-4">
+                <div class="col d-flex justify-content-center">
+                    <a href="{{ path('app_user_creditsAdd', {amount: 50}) }}" class="btn btn-lg btn-success w-75 buy-credits-btn">Buy 50 credits</a>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center">
+                    <a href="{{ path('app_user_creditsAdd', {amount: 100}) }}" class="btn btn-lg btn-success w-75 buy-credits-btn">Buy 100 credits</a>
+                </div>
+            </div>
+            <div class="row mt-3">
+                <div class="col d-flex justify-content-center">
+                    <a href="{{ path('app_user_creditsAdd', {amount: 150}) }}" class="btn btn-lg btn-success w-75 buy-credits-btn">Buy 150 credits</a>
+                </div>
+            </div>
+            <div class="row mt-3 mb-4">
+                <div class="col d-flex justify-content-center">
+                    <a href="{{ path('app_user_creditsAdd', {amount: -100}) }}" class="btn btn-lg btn-danger w-75 buy-credits-btn">Sell 100 credits</a>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <div class="btn btn-warning position-absolute" id="back" style="bottom: 12px">back</div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <div class="modalWrap d-flex justify-content-center">
+        <div class="modal-base modal-transactions position-absolute text-center position-relative" id="modal-transactions">
+
+            <div class="row m-3">
+                <div class="col">
+                    <span class="h2 text-warning text-middle my-auto modal-title">Transactions</span>
+                    <span class="position-absolute xSpan">
+                        <i class="fa-solid fa-xmark text-danger" id="closeTransactionsModal" style="cursor: pointer; font-size: 2rem;"></i>
+                    </span>
+                </div>
+            </div>
+
+            <div class="container table-container">
+                <table class="table table-bordered table-dark table-hover">
+                    <thead>
+                    <tr class="position-sticky">
+                        <th class="text-center">ID</th>
+                        <th class="text-center">Amount</th>
+                        <th class="text-center">Type</th>
+                        <th class="text-center">Date</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for ut in userTransactions %}
+                        <tr>
+                            <td class="text-center">{{ ut.id }}</td>
+                            <td class="text-center">{{ ut.amount }}</td>
+                            <td class="text-center">{{ ut.type }}</td>
+                            <td class="text-center">{{ ut.CreatedAt|date("d.m.y h:m:s") }}</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row">
+                <div class="col d-flex justify-content-center">
+                    <div class="btn btn-warning position-absolute" id="backTransactions" style="bottom: 12px">back</div>
+                </div>
             </div>
         </div>
     </div>
+
+{% endblock %}
+
+
+{% block body %}
+{#    <div class="container">#}
+{#        <div class="row mb-3">#}
+{#            <div class="col">#}
+{#                <span>You have</span>#}
+{#                <span class="text-danger"> {{ app.user.userWallet.credits }}</span>#}
+{#                <span>credits.</span>#}
+{#            </div>#}
+{#        </div>#}
+
+{#        <div class="row mb-2">#}
+{#            <div class="col">#}
+{#                <a href="{{ path('app_user_creditsAdd', {amount: 20}) }}" class="btn btn-info btn-sm">+20 credits</a>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="row mb-2">#}
+{#            <div class="col">#}
+{#                <a href="{{ path('app_user_creditsAdd', {amount: 50}) }}" class="btn btn-info btn-sm">+50 credits</a>#}
+{#            </div>#}
+{#        </div>#}
+{#        <div class="row mb-2">#}
+{#            <div class="col">#}
+{#                <a href="{{ path('app_user_creditsAdd', {amount: 100}) }}" class="btn btn-info btn-sm">+100 credits</a>#}
+{#            </div>#}
+{#        </div>#}
+
+{#        <div class="row">#}
+{#            <div class="col">#}
+{#                <a href="{{ path('app_user_creditsAdd', {amount: -100}) }}" class="btn btn-danger btn-sm">-100 credits</a>#}
+{#            </div>#}
+{#        </div>#}
+{#    </div>#}
+    <div class="container container-buy w-75">
+        <div class="row my-4">
+            <div class="col d-flex justify-content-center">
+                <span class="h1 title">Credits</span>
+            </div>
+        </div>
+        <div class="row my-4"></div>
+        <div class="row" style="margin-left: 40px">
+            <div class="col">
+                <div class="container stats">
+                    <div class="row mt-4">
+                        <div class="col d-flex justify-content-center">
+                            <span class="h2 text-light">Your available credits:</span>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col d-flex justify-content-center">
+                            <span class="h1 text-success">{{ app.user.userWallet.credits }}</span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col d-flex justify-content-center mt-3">
+                                <div class="btn btn-warning btn-small" id="btn-transactions">
+                                    Transactions history
+                                </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col position-relative">
+                <div class="row">
+                    <div class="col">
+                        <div class="btn btn-lg btn-success btn-credits mb-3" id="btn-credits">
+                            Buy credits
+                        </div>
+                    </div>
+                </div>
+                <div class="row position-absolute" style="bottom: 0">
+                    <div class="col">
+                        <div class="btn btn-lg btn-info btn-subscription text-muted mt-3 disabled">
+                            Buy subscription
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row my-4">
+            <div class="col mt-4 d-flex justify-content-center">
+                {% for message in app.flashes('success') %}
+                    <div class="alert alert-success text-center px-0 py-2">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const modal = document.getElementById('modal')
+        const modalTransactions = document.getElementById('modal-transactions')
+        const btnCredits = document.getElementById('btn-credits')
+        const btnTransactions = document.getElementById('btn-transactions')
+        const btnClose = document.getElementById('closeModal')
+        const btnTransactionsClose = document.getElementById('closeTransactionsModal')
+        const btnBack = document.getElementById('back')
+        const btnTransactionsBack = document.getElementById('backTransactions')
+
+
+
+        btnCredits.addEventListener('click',()=>{
+            modal.classList.toggle("modalOn")
+            body.classList.toggle("body-modal-on")
+        })
+
+        btnTransactions.addEventListener('click',()=>{
+            modalTransactions.classList.toggle("modalOn")
+            body.classList.toggle("body-modal-on")
+        })
+
+        btnClose.addEventListener('click',()=>{
+            modal.classList.remove("modalOn")
+            body.classList.remove("body-modal-on")
+        })
+
+        btnTransactionsClose.addEventListener('click',()=>{
+            modalTransactions.classList.remove("modalOn")
+            body.classList.remove("body-modal-on")
+        })
+
+        btnBack.addEventListener('click',()=>{
+            modal.classList.remove("modalOn")
+            body.classList.remove("body-modal-on")
+        })
+
+        btnTransactionsBack.addEventListener('click',()=>{
+            modalTransactions.classList.remove("modalOn")
+            body.classList.remove("body-modal-on")
+        })
+    </script>
+
+
+    <style>
+        .stats{
+            height: 30vh;
+            width: 80%;
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+            border: 3px solid #1a1a1a;
+            box-shadow: #414141 0 1px 10px 0;
+            border-radius: 20px;
+        }
+
+        .container-buy{
+            width: 200px;
+        }
+
+        .btn-subscription, .btn-credits{
+            height: 90px;
+            line-height: 90px;
+            padding: 0;
+            font-size: 24px;
+            border-radius: 20px;
+            box-shadow: #343434 0 2px 4px;
+            font-weight: bold;
+            width: 350px;
+            text-shadow: #595959 2px 2px 1px;
+        }
+
+        .btn-credits:hover{
+            transform: scale(1.03);
+            transition: 400ms;
+        }
+
+        #btn-transactions{
+            font-size: 120%;
+            border-radius: 10px;
+            box-shadow: #343434 0 2px 4px;
+        }
+
+        #backTransactions, #back{
+            box-shadow: #000000 0 2px 4px;
+
+        }
+
+        .modal-base{
+            width: 45vw;
+            height: fit-content;
+            padding-bottom: 70px;
+        }
+
+        .modal-transactions{
+            box-sizing: border-box;
+            height: 600px;
+            padding: 0 10px 0 10px;
+            width: 55vw;
+        }
+
+        .buy-credits-btn{
+            width: 400px;
+            height: 60px;
+            line-height: 60px;
+            padding: 0;
+            border-radius: 15px;
+            margin-top: 10px;
+            box-shadow: #000000 0 2px 4px;
+
+        }
+
+        .alert{
+            width: 600px;
+            height: 60px;
+            line-height: 60px;
+            padding: 0 !important;
+        }
+
+        .table{
+            max-height: 440px;
+            display: block;
+            width: 100%;
+            overflow-y: auto;
+            border-radius: 15px;
+            border: 2px solid black;
+        }
+
+        .table td{
+            width: 200px;
+        }
+
+        .table td:nth-child(4){
+            width: 300px;
+        }
+
+        .table-container{
+            box-sizing: border-box;
+        }
+
+
+    </style>
 {% endblock %}

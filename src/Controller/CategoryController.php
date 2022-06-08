@@ -4,9 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Form\CategoryFormType;
-//use ContainerULMl0J6\getMessenger_Listener_StopWorkerOnSigtermSignalListenerService;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,7 +18,6 @@ class CategoryController extends ApiController
     {
         $this->em = $em;
     }
-
 
     /**
      * @Route("/category/index", methods={"GET", "POST"}, name="app_category_index")

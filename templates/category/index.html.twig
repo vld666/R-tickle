@@ -11,7 +11,7 @@
 
 {% block modals %}
     <div class="modalWrap d-flex justify-content-center">
-        <div class="createModal position-absolute text-center" id="modal">
+        <div class="modal-base position-absolute text-center" id="modal">
 
             <div class="row m-3">
                 <div class="col">
@@ -166,31 +166,31 @@
     <style>
 
 
-        .createModal{
-            width: 30vw;
-            height: 55vh;
-            background: rgb(17,18,20);
-            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
-            z-index: 2;
-            border: 4px solid #1a1a1a;
-            top: 15vh;
-            display: none;
-            border-radius: 30px;
-            box-shadow: #000000 0 3px 10px;
-        }
+        /*.modal-base{*/
+        /*    width: 30vw;*/
+        /*    height: 55vh;*/
+        /*    background: rgb(17,18,20);*/
+        /*    background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);*/
+        /*    z-index: 2;*/
+        /*    border: 4px solid #1a1a1a;*/
+        /*    top: 15vh;*/
+        /*    display: none;*/
+        /*    border-radius: 30px;*/
+        /*    box-shadow: #000000 0 3px 10px;*/
+        /*}*/
 
-        .modalOn{
-            display: block;
-        }
+        /*.modalOn{*/
+        /*    display: block;*/
+        /*}*/
 
-        .body-modal-on{
-            filter: blur(2px) grayscale(1);
-            pointer-events: none;
-        }
+        /*.body-modal-on{*/
+        /*    filter: blur(2px) grayscale(1);*/
+        /*    pointer-events: none;*/
+        /*}*/
 
-        .xSpan{
-            right: 18px;
-        }
+        /*.xSpan{*/
+        /*    right: 18px;*/
+        /*}*/
 
         .form input{
             text-align: center;
@@ -214,13 +214,8 @@
             box-shadow: #343434 0 2px 4px;
         }
 
-        .title{
-            line-height: 60px;
-            text-shadow: #6e6e6e 0 2px 6px;
-        }
-
-        .modal-title{
-            text-shadow: #000000 0 1px 10px;
-        }
+        /*.modal-title{*/
+        /*    text-shadow: #000000 0 1px 10px;*/
+        /*}*/
     </style>
 {% endblock %}

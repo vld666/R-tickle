@@ -95,7 +95,10 @@ class UserController extends ApiController
      */
     public function credits(): Response
     {
+        $userTransactions = $this->em->getRepository(Transactions::class)->getUserTransactions($this->getUser());
+
         return $this->render('/user/credits.html.twig',[
+            'userTransactions' => $userTransactions
         ]);
     }
 
@@ -119,6 +122,11 @@ class UserController extends ApiController
         $this->em->persist($userWallet);
         $this->em->persist($transaction);
         $this->em->flush();
+
+
+        $this->addFlash('success', 'You have successfully purchased '. $amount . ' credits!');
+
+
 
         return $this->redirectToRoute('app_user_credits');
     }
