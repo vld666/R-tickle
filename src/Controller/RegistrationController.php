@@ -67,7 +67,6 @@ class RegistrationController extends AbstractController
                 $user->setProfilePicture($newFileName);
             }
 
-
             $entityManager->persist($userWallet);
             $entityManager->persist($user);
             $entityManager->flush();

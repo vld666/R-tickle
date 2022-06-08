@@ -57,12 +57,4 @@ class Settings
 
         return $this;
     }
-
-
-
-
-
-
-
-
 }

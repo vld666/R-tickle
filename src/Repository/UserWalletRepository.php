@@ -5,8 +5,6 @@ namespace App\Repository;
 use App\Entity\UserWallet;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\Response;
-
 /**
  * @extends ServiceEntityRepository<UserWallet>
  *
@@ -40,31 +38,6 @@ class UserWalletRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return UserWallet[] Returns an array of UserWallet objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('u.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?UserWallet
-//    {
-//        return $this->createQueryBuilder('u')
-//            ->andWhere('u.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
     public function getTotalFees(): int
     {
         $qb = $this->createQueryBuilder('f')
@@ -75,14 +48,4 @@ class UserWalletRepository extends ServiceEntityRepository
         return $qb->getQuery()->getSingleScalarResult();
 
     }
-
-//
-//$qb = $this->createQueryBuilder('u')
-//->leftJoin(PaidArticles::class, 'pa', Join::WITH, 'pa.user = u')
-//->where('u.id = :id')
-//->setParameter('id', $user)
-//->select('IDENTITY(pa.article)')
-//;
-//
-//return $qb->getQuery()->getResult();
 }

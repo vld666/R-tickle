@@ -36,7 +36,6 @@ class CategoryController extends ApiController
             return $this->redirectToRoute('app_category_index');
         }
 
-
         $categories = $this->em->getRepository(Category::class)->findAll();
         return $this->render('/category/index.html.twig',[
             'categories' => $categories,
@@ -74,9 +73,6 @@ class CategoryController extends ApiController
             'categoryForm' => $form->createView(),
         ]);
     }
-
-
-
 
     // ------------- API ----------------
 
@@ -144,7 +140,6 @@ class CategoryController extends ApiController
         $this->em->flush();
 
         return $this->respond('Category updated!');
-
     }
 
     /**
@@ -169,5 +164,4 @@ class CategoryController extends ApiController
 
         return new JsonResponse('Category deleted!');
     }
-
 }

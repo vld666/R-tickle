@@ -17,7 +17,6 @@ use Gedmo\Timestampable\Traits\TimestampableEntity;
 
 class Article
 {
-
     use SoftDeleteableEntity;
     use TimestampableEntity;
 
@@ -82,7 +81,6 @@ class Article
      * @var ArrayCollection
      */
     private $user;
-
 
     public function __construct()
     {
@@ -251,8 +249,4 @@ class Article
 
         return $this;
     }
-
-
-
-
 }

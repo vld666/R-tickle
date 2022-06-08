@@ -20,7 +20,8 @@ class PaidArticleFormType extends AbstractType
             ])
             ->add('user', EntityType::class, [
                 'class' => User::class,
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

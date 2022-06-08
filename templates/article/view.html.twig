@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
-{% block title %} Article page {% endblock %}
 
+{% block title %} Article page {% endblock %}
 
 {% block body %}
     <div class="container mb-5">
@@ -17,38 +17,6 @@
                         <div class="row pt-2 pb-2">
                             <div class="col-3">
 
-{#                                {% if "Lifestyle" in article.category.name %}#}
-{#                                    <div class="category cat-lifestyle">#}
-{#                                        {{ article.category.name }}#}
-{#                                    </div>#}
-
-{#                                {% elseif "Tech" in article.category.name %}#}
-{#                                    <div class="category cat-tech">#}
-{#                                        {{ article.category.name }}#}
-{#                                    </div>#}
-
-{#                                {% elseif "Finance" in article.category.name %}#}
-{#                                    <div class="category cat-finance">#}
-{#                                        {{ article.category.name }}#}
-{#                                    </div>#}
-
-{#                                {% elseif "News" in article.category.name %}#}
-{#                                    <div class="category cat-news">#}
-{#                                        {{ article.category.name }}#}
-{#                                    </div>#}
-
-{#                                {% elseif "Music" in article.category.name %}#}
-{#                                    <div class="category cat-music">#}
-{#                                        {{ article.category.name }}#}
-{#                                    </div>#}
-
-{#                                {% else  %}#}
-{#                                    <div class="category cat-other">#}
-{#                                        {{ article.category.name }}#}
-{#                                    </div>#}
-
-{#                                {% endif %}#}
-
                                 {% if article.category %}
                                     <div class="col-3">
                                         <div class="category" style="background-color: {{ article.category.color }} ">
@@ -62,12 +30,9 @@
                                         </div>
                                     </div>
                                 {% endif %}
-
                             </div>
 
-                            <div class="col-3">
-
-                            </div>
+                            <div class="col-3"> </div>
 
                             <div class="col-6">
                                 <div class="publisher text-muted">
@@ -106,15 +71,12 @@
                             {{ article.text }}
                            </p>
                         </span>
-
                     </div>
-
                 </div>
             </div>
             <div class="col-2">
                 <div class="row">
                     <div class="col mt-3">
-
 
                         {% if app.user %}
                             {% if "ROLE_ADMIN" in app.user.roles %}
@@ -139,13 +101,9 @@
                                         <span class="text-success h5">Visible</span>
                                         {% endif %}
                                     </span>
-
                                 </div>
-
-
-                                    <hr>
-
-                                    <div class="actions">
+                                <hr>
+                                <div class="actions">
                                     <p class="m-0 p-0">Actions:</p> <br>
 
                                         {% if article.visible == 1 %}
@@ -157,7 +115,6 @@
                                         <button class="btn btn-light btn-sm mb-2">Unhide</button>
                                     </a>
                                         {% endif %}
-
                                         <a href="{{ path('app_article_edit', {id: article.id}) }}" style="text-decoration: none">
                                         <button class="btn btn-warning btn-sm mb-2">Edit</button>
                                     </a>
@@ -166,18 +123,15 @@
                                     </a>
                                 </div>
                                 {% endif %}
-                        {% endif %}
-
+                            {% endif %}
                         </div>
                     </div>
                 </div>
             </div>
-
         </div>
     </div>
 
     <style>
-
         .card{
             background-color: #eaeaea;
             border-radius: 15px 15px 5px 5px;
@@ -206,7 +160,6 @@
             /*height: fit-content;*/
             border-radius: 15px 15px 15px 15px;
             width: 220px;
-
         }
 
         .cat-none{
@@ -232,9 +185,5 @@
             background: rgb(17,18,20);
             background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
         }
-
-
-
     </style>
-
 {% endblock %}

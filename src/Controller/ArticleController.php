@@ -5,10 +5,8 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\FavArticle;
 use App\Entity\PaidArticles;
-use App\Entity\Settings;
 use App\Entity\Transactions;
 use App\Entity\User;
-use App\Entity\UserWallet;
 use App\Form\ArticleFormType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,20 +24,14 @@ class ArticleController extends AbstractController
         $this->em = $em;
     }
 
-
     /**
      * @Route("/article/index", name="app_article_index")
      */
     public function indexAction(): Response
     {
-
         $articles = $this->em->getRepository(Article::class)->findBy(['visible' => 1]);
-
         $userPaidArticles = $this->em->getRepository(User::class)->getUserPaidArticles($this->getUser());
-
         $favArticles = $this->em->getRepository(FavArticle::class)->findBy(['user' => $this->getUser()]);
-
-//        dd($userPaidArticles);
 
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
@@ -55,9 +47,6 @@ class ArticleController extends AbstractController
     {
         $remainingCredits = $this->em->getRepository(User::class)->remainingCredits($article, $this->getUser());
 
-
-
-
         return $this->render('article/buy.html.twig',[
             'remainingCredits' => $remainingCredits,
             'article' => $article
@@ -72,19 +61,11 @@ class ArticleController extends AbstractController
         /** @var $user User */
         $user = $this->getUser();
         $userWallet = $user->getUserWallet();
-
         $articlePrice = $article->getPrice();
-
         $userCredits = $userWallet->getCredits();
-
         $publisherWallet = $article->getPublishedBy()->getUserWallet();
         $publisherCredits = $publisherWallet->getCredits();
-
         $platformFee = $article->getPublishedBy()->getPlatformFee();
-//        $platFormWallet = $this->em->getRepository(UserWallet::class)->findOneBy(['id'=>1]);
-//        $platformWalletCredits = $platFormWallet->getCredits();
-
-
 
         if ($userCredits >= $articlePrice){
             $paidArticle = new PaidArticles();
@@ -96,19 +77,14 @@ class ArticleController extends AbstractController
             $this->em->persist($paidArticle);
 
             $userWallet->setCredits($userCredits - $articlePrice);
-
             $publisherWallet->setCredits($publisherCredits + ($articlePrice * $platformFee));
             $this->em->persist($publisherWallet);
-
-//            $platFormWallet->setCredits($platformWalletCredits + ($articlePrice * $platformFee));
 
             $transactionBuy
                 ->setWallet($userWallet)
                 ->setAmount(-$articlePrice)
                 ->setType("buyArticle");
             $this->em->persist($transactionBuy);
-
-
 
             $transactionPublisherFee
                 ->setWallet($publisherWallet)
@@ -122,21 +98,17 @@ class ArticleController extends AbstractController
             $this->em->persist($transactionPlatformFee);
 
             $this->em->flush();
-        }else{
-            return $this->redirectToRoute('app_user_notEnoughCredits');
         }
-
-
         return $this->redirectToRoute('app_article_view', ['id' => $article->getId()]);
-
     }
-
 
     /**
      * @Route("/article/create", methods={"GET", "POST"}, name="app_article_create")
      */
     public function createAction(Request $request, SluggerInterface $slugger): Response
     {
+        /** @var $user User */
+        $user = $this->getUser();
         $article = new Article();
         $paidArticle = new PaidArticles();
         $form = $this->createForm(ArticleFormType::class, $article);
@@ -148,6 +120,9 @@ class ArticleController extends AbstractController
             $id = $article->getId();
             $publisher = $this->getUser();
 
+            $paidArticle->setUser($user)->setArticle($article);
+            $this->em->persist($paidArticle);
+
             if($image){
                 $originalFileName = $image->getClientOriginalName();
                 $safeFileName = $slugger->slug($originalFileName);
@@ -157,7 +132,6 @@ class ArticleController extends AbstractController
                     $this->getParameter('photos_directory'),
                     $newFileName
                 );
-
                 $article->setImage($newFileName);
             }
 
@@ -184,9 +158,7 @@ class ArticleController extends AbstractController
     public function viewAction(Article $article): Response
     {
         $article = $this->em->getRepository(Article::class)->find($article);
-
         $nrFav = $this->em->getRepository(FavArticle::class)->getNrOfLikes($article);
-
         $userPaidArticles = $this->em->getRepository(User::class)->getUserPaidArticles($this->getUser());
 
         return $this->render('/article/view.html.twig', [
@@ -210,23 +182,19 @@ class ArticleController extends AbstractController
         }
         $this->em->flush();
 
-//        return $this->redirectToRoute('app_article_index');
         return $this->redirectToRoute('app_article_view', ['id' => $article->getId()]);
-
     }
 
 
     /**
      * @Route("/article/delete/{id}", methods={"GET", "DELETE"}, name="app_article_delete")
      */
-    public function deleteAction(Article $article)
+    public function deleteAction(Article $article): Response
     {
         $this->em->remove($article);
         $this->em->flush();
 
         return $this->redirectToRoute('app_article_index');
-
-
     }
 
 
@@ -253,13 +221,8 @@ class ArticleController extends AbstractController
                     $this->getParameter('photos_directory'),
                     $newFileName
                 );
-
-
-
-
                 $article->setImage($newFileName);
             }
-
             $this->em->persist($article);
             $this->em->flush();
 
@@ -271,9 +234,4 @@ class ArticleController extends AbstractController
             'article' => $article
         ]);
     }
-
-
-
-
-
 }

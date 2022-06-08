@@ -41,32 +41,6 @@ class FavArticleRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return FavArticle[] Returns an array of FavArticle objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('f.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?FavArticle
-//    {
-//        return $this->createQueryBuilder('f')
-//            ->andWhere('f.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
-
     public function findUserFav($user)
     {
         $qb = $this->createQueryBuilder('fa')
@@ -90,6 +64,4 @@ class FavArticleRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getScalarResult();
     }
-
-
 }

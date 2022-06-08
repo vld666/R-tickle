@@ -5,9 +5,7 @@ namespace App\Controller;
 use App\Entity\Article;
 use App\Entity\FavArticle;
 use App\Entity\User;
-use App\Repository\FavArticleRepository;
 use Doctrine\ORM\EntityManagerInterface;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -26,7 +24,6 @@ class FavArticleController extends AbstractController
      */
     public function addFav(Article $article): Response
     {
-
         $favorite = $this->em->getRepository(FavArticle::class)->findOneBy([
             'article' => $article,
             'user' => $this->getUser()
@@ -49,5 +46,4 @@ class FavArticleController extends AbstractController
 
         return $this->redirectToRoute('app_article_index');
     }
-
 }

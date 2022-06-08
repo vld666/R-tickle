@@ -39,31 +39,6 @@ class TransactionsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return transactions[] Returns an array of transactions objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
-
-//    public function findOneBySomeField($value): ?transactions
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->getQuery()
-//            ->getOneOrNullResult()
-//        ;
-//    }
-
     public function getTotalSales(){
         $qb = $this->createQueryBuilder('t')
             ->where('t.type = :type')
@@ -82,7 +57,6 @@ class TransactionsRepository extends ServiceEntityRepository
 
         return $qb->getQuery()->getArrayResult();
     }
-
 
     public function getUserTransactions($user)
     {

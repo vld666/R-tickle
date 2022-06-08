@@ -7,59 +7,6 @@
         <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
     {% endfor %}
 
-
-{#    {{ form_start(registrationForm) }}#}
-{#        {{ form_row(registrationForm.username) }}#}
-{#        {{ form_row(registrationForm.plainPassword, {#}
-{#            label: 'Password'#}
-{#        }) }}#}
-{#        {{ form_row(registrationForm.agreeTerms) }}#}
-
-{#        <button type="submit" class="btn">Register</button>#}
-{#    {{ form_end(registrationForm) }}#}
-
-{#    <div class="container">#}
-{#        <div class="row text-center">#}
-{#            <h1>Register</h1>#}
-{#        </div>#}
-{#        <div class="row">#}
-{#            <div class="col ">#}
-{#                <div class="container d-flex justify-content-center form-container">#}
-
-{#                    {{ form_start(registrationForm) }}#}
-
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.username, {'attr' : {'class': 'formInput'}}) }}#}
-{#                    </div>#}
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.plainPassword, {'attr' : {'class': 'formInput'}}) }}#}
-{#                    </div>#}
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.mail, {'attr' : {'class': 'formInput'}}) }}#}
-{#                    </div>#}
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.phone, {'attr' : {'class': 'formInput'}}) }}#}
-{#                    </div>#}
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.firstName, {'attr' : {'class': 'formInput'}}) }}#}
-{#                    </div>#}
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.lastName, {'attr' : {'class': 'formInput'}}) }}#}
-{#                    </div>#}
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.profilePicture) }}#}
-{#                    </div>#}
-{#                    <div class="row">#}
-{#                        {{ form_row(registrationForm.submit, {'attr' : {'class': 'formSubmit'}}) }}#}
-{#                    </div>#}
-
-{#                    {{ form_end(registrationForm,{'render_rest': false}) }}#}
-{#                </div>#}
-
-{#            </div>#}
-{#        </div>#}
-{#    </div>#}
-
     <div class="container">
         <div class="container d-flex justify-content-center w-50 p-3 py-5 mt-4 form-container">
             {{ form_start(registrationForm) }}
@@ -99,7 +46,6 @@
         </div>
     </div>
 
-
     <style>
         .form-input{
             width: 100%;
@@ -108,7 +54,6 @@
             border-radius: 8px;
             border: 2px solid #000000;
             box-shadow: #262626 0 1px  3px 1px;
-
         }
 
         .form-container{
@@ -125,11 +70,6 @@
             margin-top: 25px;
             box-shadow: #262626 0 1px  10px 1px;
             border-radius: 8px;
-
-
-
         }
-
     </style>
-
 {% endblock %}

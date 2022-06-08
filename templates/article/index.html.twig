@@ -1,20 +1,15 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
-
-
     <div class="container indexContainer">
         <div class="row">
             <div class="col d-flex justify-content-center mt-2">
                 <span class="h2 title">Check out our fresh <span class="text-danger">R</span>-tickles</span>
-
             </div>
         </div>
         <div class="row d-flex justify-content-center">
 
             {% for article in articles %}
-
             <div class="card mx-2 my-3" style="width: 20rem;">
                 {% if article.isPaid == 0 %}
                     <div class="priceTag priceTagFree d-flex justify-content-center">
@@ -47,9 +42,7 @@
                                     </div>
                                 </div>
                             {% endif %}
-                            <div class="col-3">
-
-                            </div>
+                            <div class="col-3"> </div>
 
                             <div class="col-6">
                                 <div class="publisher text-muted">
@@ -65,9 +58,6 @@
                         <hr>
                         <span>
                             {% if article.isPaid == 1 %}
-
-
-
                                 {% set counter = 0 %}
 
                                 {% for paidArticle in userPaidArticles %}
@@ -80,7 +70,8 @@
                                         <div class="locked">
                                             <a href="{{ path('app_article_buy', {id: article.id}) }}" class="btn read-more text-light mt-5 fs-5">
                                                 <i class="fa-solid fa-lock-open" style="font-size: 20px"></i>
-                                                - Unlock this R-tickle</a>
+                                                - Unlock this R-tickle
+                                            </a>
                                         </div>
                                     {% endif %}
                             {% endif %}
@@ -89,7 +80,6 @@
                             </p>
                             <a href="{{ path('app_article_view', {id: article.id}) }}" class="btn read-more text-light">Read more</a>
                             <a href="{{ path('app_add_fav', {id: article.id}) }}" class="btn btn-danger text-light">FAV</a>
-
                         </span>
 
                         {% if app.user %}
@@ -104,18 +94,13 @@
                                     <span> price: {{ article.price }} </span> <br>
                             {% endif %}
                         {% endif %}
-
                     </div>
-            </div>
+                </div>
             {% endfor %}
         </div>
     </div>
 
-
-
-
     <style>
-
         .card{
             background-color: #eaeaea;
             border-radius: 15px 15px 5px 5px;
@@ -123,15 +108,14 @@
             min-height: 450px;
         }
 
-       .container .row{
+        .container .row{
             --bs-gutter-x: 0;
         }
 
-
         .image{
-            height: 200px;
-            background-size: cover;
-            border-radius: 15px 15px 2px 2px;
+           height: 200px;
+           background-size: cover;
+           border-radius: 15px 15px 2px 2px;
         }
 
         .locked{
@@ -152,28 +136,6 @@
             color: white;
         }
 
-
-
-        /*.cat-lifestyle{*/
-        /*    background-color: #5fc7a2;*/
-        /*}*/
-
-        /*.cat-tech{*/
-        /*    background-color: #2277cc;*/
-        /*}*/
-
-        /*.cat-finance{*/
-        /*    background-color: #a89525;*/
-        /*}*/
-
-        /*.cat-news{*/
-        /*    background-color: #247a11;*/
-        /*}*/
-
-        /*.cat-music{*/
-        /*    background-color: #c78534;*/
-        /*}*/
-
         .cat-none{
             background-color: #b06767;
         }
@@ -185,7 +147,6 @@
             border-bottom-right-radius: 15px;
             z-index: 1;
             font-size: 14px;
-
         }
 
         .priceTagFree{
@@ -199,8 +160,5 @@
         .title{
             text-shadow: #707070 0 0 2px;
         }
-
-
-
     </style>
 {% endblock %}

@@ -22,7 +22,8 @@ class FavArticleFormType extends AbstractType
             ->add('user', EntityType::class,[
                 'class' => User::class,
                 'choice_label' => 'username'
-            ]);
+            ])
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

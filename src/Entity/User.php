@@ -20,7 +20,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-
     use SoftDeleteableEntity;
     use TimestampableEntity;
     /**
@@ -102,12 +101,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     private $platformFee = 0.50;
 
-
     /**
      * @var ArrayCollection
      */
     private $user;
-
 
     public function __construct()
     {
@@ -370,7 +367,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
 
     public function getUserWallet(): ?UserWallet
     {

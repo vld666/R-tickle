@@ -2,13 +2,10 @@
 
 namespace App\Controller;
 
-use App\Entity\FavArticle;
 use App\Entity\Transactions;
 use App\Entity\User;
-use App\Form\RegistrationFormType;
 use App\Form\UserFormType;
 use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +20,6 @@ class UserController extends ApiController
     {
         $this->em = $em;
     }
-
 
     /**
      * @Route("/user/profile", name="app_user_profile")
@@ -40,12 +36,9 @@ class UserController extends ApiController
             $this->em->flush();
         }
 
-
         $userArticles = $this->em->getRepository(User::class)->findUserArticles($user);
 
         $userFavArticles = $this->em->getRepository(User::class)->findFavArticles($user);
-
-
 
         return $this->render('user/profile.html.twig', [
             'user' => $user,
@@ -54,7 +47,6 @@ class UserController extends ApiController
             'userForm' => $form->createView()
         ]);
     }
-
 
     /**
      * @Route("/admin/user/index", methods={"GET"}, name="app_user_index")
@@ -68,7 +60,6 @@ class UserController extends ApiController
         ]);
     }
 
-
     /**
      * @Route("/admin/user/edit/{id}", methods={"GET", "POST"}, name="app_user_edit")
      */
@@ -80,7 +71,6 @@ class UserController extends ApiController
         if($form->isSubmitted() && $form->isValid()){
             $this->em->persist($user);
             $this->em->flush();
-
             $this->addFlash('success', 'Category updated!');
         }
 
@@ -88,7 +78,6 @@ class UserController extends ApiController
             'userForm' => $form->createView()
         ]);
     }
-
 
     /**
      * @Route("/user/credits", methods={"GET", "POST"}, name="app_user_credits")
@@ -101,8 +90,6 @@ class UserController extends ApiController
             'userTransactions' => $userTransactions
         ]);
     }
-
-
 
     /**
      * @Route("/user/credits/add/{amount}", methods={"GET", "POST"}, name="app_user_creditsAdd")
@@ -123,14 +110,10 @@ class UserController extends ApiController
         $this->em->persist($transaction);
         $this->em->flush();
 
-
         $this->addFlash('success', 'You have successfully purchased '. $amount . ' credits!');
-
-
 
         return $this->redirectToRoute('app_user_credits');
     }
-
 
     /**
      * @Route("/api/user/index", methods={"GET"}, name="app_api_user_index")
@@ -151,13 +134,11 @@ class UserController extends ApiController
                 'createdAt' => $user->getCreatedAt(),
             );
         }
-
         $response = new JsonResponse($arrayCollection);
         $response->setEncodingOptions($response->getEncodingOptions() | JSON_PRETTY_PRINT);
 
         return $response;
     }
-
 
     /**
      * @Route("/admin/api/user/delete/{id}", methods={"DELETE"}, name="app_api_user_delete")
@@ -169,7 +150,4 @@ class UserController extends ApiController
 
         return new JsonResponse('User deleted!');
     }
-
-
-
 }

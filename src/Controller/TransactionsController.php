@@ -27,7 +27,6 @@ class TransactionsController extends ApiController
         return $this->render('/transactions/index.html.twig',[
             'transactions' => $transactions
         ]);
-
     }
 
     /**
@@ -66,6 +65,4 @@ class TransactionsController extends ApiController
 
         return $response;
     }
-
-
 }

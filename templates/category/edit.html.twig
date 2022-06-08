@@ -2,22 +2,20 @@
 
 {% block body %}
     <div class="container w-75 pt-4">
-
         <div class="row mt-4">
             <div class="col d-flex justify-content-center">
                 <div class="editCard">
                     <div class="row m-3">
                         <div class="col d-flex justify-content-center">
                             <span class="h2 text-info text-middle my-auto">Edit category</span>
-
                         </div>
                     </div>
+
                     <hr class="m-0 mb-2 text-light">
 
                     <div class="row form">
                         <div class="col">
                             {{ form_start(categoryForm) }}
-
                             <div class="row px-4 m-3 mt-4 text-middle">
                                 {{ form_widget(categoryForm.name) }}
                             </div>
@@ -33,7 +31,6 @@
                             <div class="row px-4 m-3 my-4">
                                 {{ form_widget(categoryForm.submit, {'attr' : {'class': 'btn btn-success'}}) }}
                             </div>
-
                             {{ form_end(categoryForm) }}
                         </div>
                     </div>
@@ -49,16 +46,10 @@
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
-
-
-
-
     </div>
-
 
     <style>
         .editCard{
@@ -89,7 +80,5 @@
             color: #af0707;
             font-weight: bold;
         }
-
-
     </style>
 {% endblock %}

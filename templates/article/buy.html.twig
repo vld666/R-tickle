@@ -1,7 +1,6 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-
     <div class="container w-75 main mt-3">
         <div class="row">
             <div class="col">
@@ -24,7 +23,6 @@
                 <div class="row p-4 d-flex justify-content-center">
                     <div class="card p-0" style="width: 90%">
 
-
                         {% if article.image %}
                             <img src="{{ asset('uploads/photos/') }}{{ article.image }}" alt="img missing" class="card-img-top image">
                         {% else %}
@@ -46,9 +44,7 @@
                                         </div>
                                     </div>
                                 {% endif %}
-                                <div class="col-3">
-
-                                </div>
+                                <div class="col-3"> </div>
 
                                 <div class="col-6">
                                     <div class="publisher text-muted">
@@ -61,15 +57,10 @@
                             <h5 class="card-title my-2">
                                 {{ article.title }}
                             </h5>
-
-
-
                         </div>
                     </div>
-
                 </div>
             </div>
-
             <div class="col my-auto">
                 <div class="container w-75 summary">
                     <div class="row">
@@ -100,7 +91,6 @@
                         <div class="col d-flex justify-content-center">
                             {% if remainingCredits < 0 %}
                                 <div class="btn btn-success btn-lg buy disabled">BUY this R-tickle!</div>
-
                             {% else %}
                             <a href="{{ path('app_article_buy_ok', {id: article.id}) }}"> <div class="btn btn-success btn-lg buy">BUY this R-tickle!</div> </a>
                             {% endif %}
@@ -116,9 +106,7 @@
                             <a href="{{ path('app_user_credits') }}"> <div class="btn btn-danger btn-lg buy text-white">Get more credits</div> </a>
                         </div>
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>
@@ -174,6 +162,4 @@
             text-align: center;
         }
     </style>
-
-
 {% endblock %}

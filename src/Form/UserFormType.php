@@ -18,7 +18,6 @@ class UserFormType extends AbstractType
     {
         $builder
             ->add('username', TextType::class)
-
             ->add('mail', TextType::class, [
                 'constraints' => [
                     new NotNull([
@@ -29,8 +28,8 @@ class UserFormType extends AbstractType
             ->add('firstName', TextType::class)
             ->add('lastName', TextType::class)
             ->add('phone', TextType::class)
-            ->add('submit', SubmitType::class);
-
+            ->add('submit', SubmitType::class)
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void

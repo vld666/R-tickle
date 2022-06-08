@@ -82,15 +82,10 @@ class Transactions
 
     public function getWalletId(): ?string
     {
-
         if($this->getWallet() == null){
             return 'platform';
         }else{
             return $this->getWallet()->getId();
         }
-
     }
-
-
-
 }
