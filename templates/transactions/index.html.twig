@@ -4,6 +4,9 @@
     {{ parent() }}
     <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.20.1/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.datatables.net/plug-ins/1.10.21/dataRender/datetime.js"></script>
+
 {% endblock %}
 {% block stylesheets %}
     {{ parent() }}
@@ -40,6 +43,10 @@
             let table = $('#transactions').DataTable({
                 order: [[4, 'desc']],
                 "processing": true,
+                columnDefs: [{
+                    targets: 4,
+                    render: $.fn.dataTable.render.moment('YYYY-MM-DD HH:mm:ss.SSSS','YYYY/MM/DD HH:mm:ss')
+                }],
                 "columns": [
                     { "data": "id" },
                     { "data": "wallet" },
@@ -65,5 +72,4 @@
             text-shadow: #6e6e6e 0 2px 6px;
         }
     </style>
-
 {% endblock %}
