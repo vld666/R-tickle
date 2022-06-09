@@ -33,6 +33,10 @@ class ArticleController extends AbstractController
         $userPaidArticles = $this->em->getRepository(User::class)->getUserPaidArticles($this->getUser());
         $favArticles = $this->em->getRepository(FavArticle::class)->findBy(['user' => $this->getUser()]);
 
+
+
+
+//        dd($favArticles);
         return $this->render('article/index.html.twig', [
             'articles' => $articles,
             'favArticles' => $favArticles,

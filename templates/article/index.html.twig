@@ -10,6 +10,20 @@
         <div class="row d-flex justify-content-center">
 
             {% for article in articles %}
+
+                {% set isFav = 0 %}
+                {% for fav in favArticles %}
+                    {% if fav.article.id == article.id %}
+                        {% if fav.user.id == app.user.id %}
+                            {% set isFav = isFav + 1 %}
+                        {% else %}
+                            {% set isFav = isFav + 0 %}
+                        {% endif %}
+                    {% else %}
+                        {% set isFav = isFav + 0 %}
+                    {% endif %}
+                {% endfor %}
+
             <div class="card mx-2 my-3" style="width: 20rem;">
                 {% if article.isPaid == 0 %}
                     <div class="priceTag priceTagFree d-flex justify-content-center">
@@ -26,6 +40,17 @@
                 {% else %}
                 <img src="{{ asset('uploads/photos/no-image.png') }}" alt="No image" class="card-img-top image" style="filter: invert(70%)">
                 {% endif %}
+                    <div class="favIcon">
+                        {% if isFav == 0 %}
+                            <a href="{{ path('app_add_fav', {id: article.id}) }}">
+                                <i class="fa-solid fa-heart fav-off" style="font-size: 1.8rem; color: black "></i>
+                            </a>
+                        {% else %}
+                            <a href="{{ path('app_add_fav', {id: article.id}) }}">
+                                <i class="fa-solid fa-heart fav-on" style="font-size: 1.8rem; color: red"></i>
+                            </a>
+                        {% endif %}
+                    </div>
                     <div class="card-body mx-auto pt-0 text-center w-100">
                         <div class="row pt-2 pb-2">
 
@@ -78,10 +103,8 @@
                             <p class="card-text text-center">
                                  {{ article.text|length > 160 ? article.text|slice(0, 160) ~ '...' : article.text }}
                             </p>
-                            <a href="{{ path('app_article_view', {id: article.id}) }}" class="btn read-more text-light">Read more</a>
-                            <a href="{{ path('app_add_fav', {id: article.id}) }}" class="btn btn-danger text-light">FAV</a>
+                            <a href="{{ path('app_article_view', {id: article.id}) }}" class="btn read-more text-light w-50">Read more</a>
                         </span>
-
                         {% if app.user %}
                             {% if "ROLE_ADMIN" in app.user.roles %}
                                 <hr>
@@ -159,6 +182,22 @@
 
         .title{
             text-shadow: #707070 0 0 2px;
+        }
+
+        .favIcon{
+            position: absolute;
+            right: 15px;
+            top: 10px;
+        }
+
+        .fav-off{
+            text-shadow: white 0 0 3px,
+                         white 0 0 3px;
+        }
+
+        .fav-on{
+            text-shadow: black 0 0 4px,
+                         black 0 0 4px;
         }
     </style>
 {% endblock %}
