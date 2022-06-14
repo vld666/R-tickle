@@ -16,11 +16,6 @@
     font-size: 1.25em;
 }
 
-.nav-link:active,
-.nav-link:hover,
-.nav-link:focus{
-    background-color: red;
-}
 
 #body{
     transition: 0.3s;
@@ -51,7 +46,7 @@
     box-shadow: #000000 0 1px 12px 1px;
 }
 
-li .dropdown-item:hover{
+.sidebar li .dropdown-item:hover{
     background-color: red;
 }
 

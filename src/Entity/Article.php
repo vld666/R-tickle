@@ -82,6 +82,11 @@ class Article
      */
     private $user;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $views;
+
     public function __construct()
     {
         $this->favArticles = new ArrayCollection();
@@ -246,6 +251,18 @@ class Article
                 $article->setArticle(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getViews(): ?int
+    {
+        return $this->views;
+    }
+
+    public function setViews(int $views): self
+    {
+        $this->views = $views;
 
         return $this;
     }

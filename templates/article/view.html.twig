@@ -5,7 +5,207 @@
 {% block body %}
     <div class="container mb-5">
         <div class="row">
-            <div class="col-2"></div>
+            <div class="col-2">
+                <div class="row">
+                    <div class="col mt-3">
+                        {% if app.user %}
+                            {% if "ROLE_USER" in app.user.roles %}
+                                <div class="info-container p-2 text-light text-center position-fixed">
+                                    <div class="info">
+                                        <p class="m-0 p-0 text-info">Article info</p>
+                                        <hr class="pt-0 mt-0 mb-3 w-50 mx-auto">
+                                        <span>Viewed <span class="text-warning"> {{ article.views }} </span>times</span> <br>
+                                        <span> Liked <span class="text-warning"> {{ nrFav[0][1] }} </span>  times</span> <br>
+                                        <span>Publisher: <span class="text-warning"> {{ article.publishedBy.lastName }} </span> </span> <br>
+                                        {% set diff = date('today').diff(article.createdAt)|date %}
+                                        <span>Published: <span class="text-warning">{{ diff }}</span> ago</span>
+                                    </div>
+
+                                    <hr>
+
+                                    <p class="text-info mb-0">Actions</p>
+                                    <hr class="w-50 mt-0 mx-auto">
+
+                                    {% set isFav = 0 %}
+                                    {% for fav in favArticles %}
+                                        {% if fav.article.id == article.id %}
+                                            {% if fav.user.id == app.user.id %}
+                                                {% set isFav = isFav + 1 %}
+                                            {% else %}
+                                                {% set isFav = isFav + 0 %}
+                                            {% endif %}
+                                        {% else %}
+                                            {% set isFav = isFav + 0 %}
+                                        {% endif %}
+                                    {% endfor %}
+
+                                    <div class="row">
+
+                                        {#   Favorite   #}
+                                        <div class="col">
+                                            <div class="row">
+                                                {% if isFav == 0 %}
+                                                    <a href="{{ path('app_add_fav', {id: article.id}) }}">
+                                                        <i class="fa-solid fa-heart fav-off" style="font-size: 33px; color: black "></i>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="{{ path('app_add_fav', {id: article.id}) }}">
+                                                        <i class="fa-solid fa-heart fav-on" style="font-size: 33px; color: red"></i>
+                                                    </a>
+                                                {% endif %}
+                                            </div>
+                                            <div class="row">
+                                                <div class="col d-flex justify-content-center">
+                                                    <span class="text-danger pt-1 icon-text" style="font-size: 12px;"> Fav </span>
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                        {#   Buy   #}
+                                        <div class="col">
+                                            {% if article.isPaid == 1 %}
+                                                {% set counter = 0 %}
+
+                                                {% for paidArticle in userPaidArticles %}
+                                                    {% if article.id in paidArticle %}
+                                                        {%  set counter = counter + 1 %}
+                                                    {% endif %}
+                                                {% endfor %}
+
+
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            {% if counter == 1 %}
+                                                                <i class="fa-solid fa-dollar-sign text-muted" style="font-size: 35px; transition: none!important; transform: none!important;"></i>
+                                                                <div class="row">
+                                                                    <div class="col d-flex justify-content-center">
+                                                                        <span class="text-success pt-1 icon-text" style="font-size: 12px;"> Purchased </span>
+                                                                    </div>
+                                                                </div>
+                                                            {% else %}
+                                                                <a href="{{ path('app_article_buy', {id: article.id}) }}">
+                                                                    <i class="fa-solid fa-dollar-sign text-success" style="font-size: 35px"></i>
+                                                                </a>
+                                                                <div class="row">
+                                                                    <div class="col d-flex justify-content-center">
+                                                                        <span class="text-success pt-1 icon-text" style="font-size: 12px;"> Buy </span>
+                                                                    </div>
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                            {% else %}
+                                                <div class="row">
+                                                    <div class="col">
+                                                        <div class="row">
+                                                            <i class="fa-solid fa-dollar-sign text-success" style="font-size: 35px; transition: none!important; transform: none!important;"></i>
+                                                        </div>
+                                                        <div class="row">
+                                                            <div class="col d-flex justify-content-center">
+                                                                <span class="text-success pt-1 icon-text" style="font-size: 12px;"> Free </span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        </div>
+
+                                        {#   Report   #}
+                                        <div class="col">
+                                            <div class="row">
+                                                <i class="fa-solid fa-triangle-exclamation text-warning" style="font-size: 35px"></i>
+                                            </div>
+                                            <div class="row">
+                                                <span class="text-warning pt-1 icon-text" style="font-size: 12px;"> Report </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+{#                                    <div class="row" style="border: 1px solid red">#}
+{#                                        <div class="col-2"></div>#}
+{#                                        <div class="col-2">#}
+{#                                            <div class="favIcon">#}
+{#                                                {% if isFav == 0 %}#}
+{#                                                    <a href="{{ path('app_add_fav', {id: article.id}) }}">#}
+{#                                                        <i class="fa-solid fa-heart fav-off" style="font-size: 1.8rem; color: black "></i>#}
+{#                                                    </a>#}
+{#                                                {% else %}#}
+{#                                                    <a href="{{ path('app_add_fav', {id: article.id}) }}">#}
+{#                                                        <i class="fa-solid fa-heart fav-on" style="font-size: 1.8rem; color: red"></i>#}
+{#                                                    </a>#}
+{#                                                {% endif %}#}
+{#                                            </div>#}
+{#                                        </div>#}
+{#                                        <div class="col-1"></div>#}
+{#                                            {% if article.isPaid == 0 %}#}
+
+{#                                                {% set counter = 0 %}#}
+
+{#                                                {% for paidArticle in userPaidArticles %}#}
+{#                                                    {% if article.id in paidArticle %}#}
+{#                                                        {%  set counter = counter + 1 %}#}
+{#                                                    {% endif %}#}
+{#                                                {% endfor %}#}
+
+
+{#                                                {% if counter == 0 %}#}
+{#                                                    <div class="col-2">#}
+{#                                                        <div class="row">#}
+{#                                                            <div class="buy">#}
+{#                                                                <i class="fa-solid fa-dollar-sign" style="font-size: 1.8rem"></i>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                        <div class="row">#}
+{#                                                            <div class="col d-flex justify-content-center">#}
+{#                                                                <span class="text-muted" style="font-size: 0.8rem;"> Buy </span>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                                    {% else %}#}
+{#                                                    nu#}
+{#                                                {% endif %}#}
+
+
+{#                                            {% else %}#}
+{#                                                    <div class="col-2">#}
+{#                                                        <div class="row">#}
+{#                                                            <div class="buy">#}
+{#                                                                <i class="fa-solid fa-dollar-sign text-muted" style="font-size: 1.8rem"></i>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                        <div class="row">#}
+{#                                                            <div class="col d-flex justify-content-center">#}
+{#                                                                <span class="text-muted" style="font-size: 0.8rem;"> Buy </span>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                            {% endif %}#}
+{#                                            <div class="col-1"></div>#}
+{#                                                    <div class="col-2">#}
+{#                                                        <div class="row">#}
+{#                                                            <div class="report">#}
+{#                                                                <i class="fa-solid fa-triangle-exclamation text-warning" style="font-size: 1.8rem"></i>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                        <div class="row">#}
+{#                                                            <div class="col d-flex justify-content-center">#}
+{#                                                                <span class="text-muted" style="font-size: 0.8rem;"> Report </span>#}
+{#                                                            </div>#}
+{#                                                        </div>#}
+{#                                                    </div>#}
+{#                                    </div>#}
+                                </div>
+
+                            {% endif %}
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
             <div class="col-8">
                 <div class="card mx-auto my-3" style="width: 50rem;">
                     {% if article.image %}
@@ -77,54 +277,52 @@
             <div class="col-2">
                 <div class="row">
                     <div class="col mt-3">
-
                         {% if app.user %}
                             {% if "ROLE_ADMIN" in app.user.roles %}
+                                <div class="info-container p-2 text-light text-center position-fixed">
+                                    <div class="info">
+                                        <p class="m-0 p-0">Info (admin)</p> <br>
 
-                            <div class="menu p-2 text-light text-center position-fixed">
-                                <div class="info">
-                                    <p class="m-0 p-0">Info:</p> <br>
+                                        Id: {{ article.id }} <br>
 
-                                    Id: {{ article.id }} <br>
-
-                                    <span>Created: {{ article.createdAt|date('Y-m-d') }} </span> <br>
-                                    <span>By: {{ article.publishedBy }}</span> <br>
-                                    <span> Likes: {{ nrFav[0][1] }}</span> <br>
-                                    <span>
-                                        <img src="{{ asset('uploads/profilePics/') }}{{ app.user.profilePicture }}" alt="No image" class="w-25 profileImage">
-                                    </span>
+                                        <span>Created: {{ article.createdAt|date('Y-m-d') }} </span> <br>
+                                        <span>By: {{ article.publishedBy }}</span> <br>
+                                        <span> Likes: {{ nrFav[0][1] }}</span> <br>
+                                        <span>
+                                            <img src="{{ asset('uploads/profilePics/') }}{{ app.user.profilePicture }}" alt="No image" class="w-25 profileImage">
+                                        </span>
+                                        <hr>
+                                        <span>Status:
+                                            {% if article.visible == 0 %}
+                                             <span class="text-danger h5">Hidden</span>
+                                            {% else %}
+                                            <span class="text-success h5">Visible</span>
+                                            {% endif %}
+                                        </span>
+                                    </div>
                                     <hr>
-                                    <span>Status:
-                                        {% if article.visible == 0 %}
-                                         <span class="text-danger h5">Hidden</span>
-                                        {% else %}
-                                        <span class="text-success h5">Visible</span>
-                                        {% endif %}
-                                    </span>
-                                </div>
-                                <hr>
-                                <div class="actions">
-                                    <p class="m-0 p-0">Actions:</p> <br>
+                                    <div class="actions">
+                                        <p class="m-0 p-0">Actions:</p> <br>
 
-                                        {% if article.visible == 1 %}
-                                    <a href="{{ path('app_article_hide', {id: article.id}) }}" style="text-decoration: none">
-                                        <button class="btn btn-info btn-sm mb-2">Hide</button>
-                                    </a>
-                                        {% elseif article.visible == 0 %}
-                                    <a href="{{ path('app_article_hide', {id: article.id}) }}" style="text-decoration: none">
-                                        <button class="btn btn-light btn-sm mb-2">Unhide</button>
-                                    </a>
-                                        {% endif %}
-                                        <a href="{{ path('app_article_edit', {id: article.id}) }}" style="text-decoration: none">
-                                        <button class="btn btn-warning btn-sm mb-2">Edit</button>
-                                    </a>
-                                    <a href="{{ path('app_article_delete', {id: article.id}) }}" style="text-decoration: none">
-                                        <button class="btn btn-danger btn-sm mb-2">Delete</button>
-                                    </a>
+                                            {% if article.visible == 1 %}
+                                        <a href="{{ path('app_article_hide', {id: article.id}) }}" style="text-decoration: none">
+                                            <button class="btn btn-info btn-sm mb-2">Hide</button>
+                                        </a>
+                                            {% elseif article.visible == 0 %}
+                                        <a href="{{ path('app_article_hide', {id: article.id}) }}" style="text-decoration: none">
+                                            <button class="btn btn-light btn-sm mb-2">Unhide</button>
+                                        </a>
+                                            {% endif %}
+                                            <a href="{{ path('app_article_edit', {id: article.id}) }}" style="text-decoration: none">
+                                            <button class="btn btn-warning btn-sm mb-2">Edit</button>
+                                        </a>
+                                        <a href="{{ path('app_article_delete', {id: article.id}) }}" style="text-decoration: none">
+                                            <button class="btn btn-danger btn-sm mb-2">Delete</button>
+                                        </a>
+                                    </div>
                                 </div>
-                                {% endif %}
                             {% endif %}
-                        </div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -153,7 +351,7 @@
             color: white;
         }
 
-        .menu{
+        .info-container{
             box-shadow: #414141 0 2px 8px 1px;
             background: rgb(17,18,20);
             background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
@@ -184,6 +382,19 @@
         .read-more{
             background: rgb(17,18,20);
             background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+        }
+
+        .info-container i {
+            text-shadow: black 0 0 4px;
+        }
+
+        .info-container i:hover{
+            transform: scale(1.12);
+            transition: 0.5s ;
+        }
+
+        .icon-text{
+            text-shadow: black 0 1px 2px;
         }
     </style>
 {% endblock %}

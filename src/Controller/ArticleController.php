@@ -141,6 +141,7 @@ class ArticleController extends AbstractController
 
             $article->setPublishedBy($publisher);
             $article->setVisible(1);
+            $article->setViews(0);
 
             $this->em->persist($article);
             $this->em->flush();
@@ -164,11 +165,17 @@ class ArticleController extends AbstractController
         $article = $this->em->getRepository(Article::class)->find($article);
         $nrFav = $this->em->getRepository(FavArticle::class)->getNrOfLikes($article);
         $userPaidArticles = $this->em->getRepository(User::class)->getUserPaidArticles($this->getUser());
+        $favArticles = $this->em->getRepository(FavArticle::class)->findAll();
+        $views = $article->getViews();
+        $views = $views + 1;
+        $this->em->persist($article->setViews($views));
+        $this->em->flush();
 
         return $this->render('/article/view.html.twig', [
             'nrFav' => $nrFav,
+            'favArticles' => $favArticles,
             'article' => $article,
-            'userPaidArticles' => $userPaidArticles
+            'userPaidArticles' => $userPaidArticles,
         ]);
     }
 

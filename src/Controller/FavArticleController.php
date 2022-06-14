@@ -6,6 +6,7 @@ use App\Entity\Article;
 use App\Entity\FavArticle;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use http\Env\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,7 +23,7 @@ class FavArticleController extends AbstractController
     /**
      * @Route("/addtofav/{id}", methods={"GET", "POST"}, name="app_add_fav")
      */
-    public function addFav(Article $article): Response
+    public function addFav(Article $article, \Symfony\Component\HttpFoundation\Request $request): Response
     {
         $favorite = $this->em->getRepository(FavArticle::class)->findOneBy([
             'article' => $article,
@@ -44,6 +45,11 @@ class FavArticleController extends AbstractController
 
         $this->em->flush();
 
-        return $this->redirectToRoute('app_article_index');
+        $route = $request->headers->get('referer');  //get last route
+
+
+        return $this->redirect($route); //redirect to last route
+
+
     }
 }

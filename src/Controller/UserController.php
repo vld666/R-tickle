@@ -68,14 +68,24 @@ class UserController extends ApiController
         $form = $this->createForm(UserFormType::class, $user);
         $form->handleRequest($request);
 
+
+        $userPublishedArticles = $this->em->getRepository(User::class)->findUserArticles($user);
+        $userPaidArticles = $this->em->getRepository(User::class)->getUserPaidArticles($user);
+
+
+
         if($form->isSubmitted() && $form->isValid()){
             $this->em->persist($user);
             $this->em->flush();
             $this->addFlash('success', 'Category updated!');
         }
 
+
         return $this->render('user/edit.html.twig',[
-            'userForm' => $form->createView()
+            'userPublishedArticles' => $userPublishedArticles,
+            'userPaidArticles' => $userPaidArticles,
+            'userForm' => $form->createView(),
+            'user' => $user
         ]);
     }
 

@@ -98,9 +98,11 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
     {
         $qb = $this->createQueryBuilder('u')
             ->leftJoin(PaidArticles::class, 'pa', Join::WITH, 'pa.user = u')
+            ->leftJoin(Article::class, 'a', Join::WITH, 'pa.article = a')
             ->where('u.id = :id')
             ->setParameter('id', $user)
-            ->select('IDENTITY(pa.article)')
+//            ->select('IDENTITY(pa.article)')
+            ->select('pa')
             ;
 
         return $qb->getQuery()->getResult();
@@ -113,4 +115,14 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
 
         return $creditsAvailable - $articlePrice;
     }
+
+//    public function findUserOwnedArticles($user)
+//    {
+//        $qb = $this->createQueryBuilder('u')
+//
+//
+//            ;
+//
+//        return $qb->getQuery()->getResult();
+//    }
 }

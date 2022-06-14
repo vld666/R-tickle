@@ -1,7 +1,239 @@
 {% extends './base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+    <link href="{{ asset('css/table.css') }}" rel="stylesheet">
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+{#    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">#}
+{#    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>#}
+{#    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>#}
+{% endblock %}
 {% block body %}
-<div class="container">
-    {{ form(userForm) }}
-</div>
+{#<div class="container">#}
+{#    {{ form(userForm) }}#}
+{#</div>#}
+
+    <div class="container">
+        <div class="row">
+            <div class="col d-flex justify-content-center mb-3">
+                <span class="h1 title">User profile </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <div class="container content-profile text-white">
+                    <div class="row pt-3">
+                        <div class="col-4">
+                            {% if user.profilePicture %}
+                                <img src="{{ asset('uploads/profilePics/') }}{{ user.profilePicture }}" alt="No image">
+                            {% else %}
+                                <img src="{{ asset('uploads/profilePics/no-profile-pic.jpeg') }}" alt="No image" class="card-img-top image profilePicture m-3" style="width: 100px!important; height: 100px!important;">
+                            {% endif %}
+                        </div>
+                        <div class="col-8">
+                            <p class="text-light h3" style="line-height: 100px">{{ user.fullName }}</p>
+                        </div>
+                    </div>
+
+                    <hr class="text-light">
+
+                    <div class="row">
+                        <span>Mail: <span>{{ user.mail }}</span></span>
+                    </div>
+                    <div class="row">
+                        <span>Phone: <span>{{ user.phone }}</span></span>
+                    </div>
+                    <div class="row">
+                        <span>Created-at: <span>{{ user.createdAt|date('Y-m-d') }}</span></span>
+                    </div>
+                    <div class="row">
+                        <span>Platform fee: <span>{{ user.platformFee }}</span></span>
+                    </div>
+
+
+                    <hr class="w-25">
+
+
+                    <div class="row">
+                        stats/credits
+                    </div>
+                    <div class="row">
+                        date
+                    </div>
+                    <div class="row">
+                        date
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-8 content">
+                <div class="row">
+                    <div class="col">
+                        <div class="row">
+                            <ul class="nav nav-tab pe-0">
+                                <li class="nav-item col">
+                                    <a class="nav-link text-danger active d-flex justify-content-center" data-bs-toggle="tab" href="#paid">Owned articles</a>
+                                </li>
+                                <li class="nav-item col">
+                                    <a class="nav-link text-danger d-flex justify-content-center" data-bs-toggle="tab" href="#posted">Published articles</a>
+                                </li>
+                                <li class="nav-item col">
+                                    <a class="nav-link text-danger d-flex justify-content-center" data-bs-toggle="tab" href="#fav">Something else</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="row">
+                            <div class="tab-content text-white">
+                                <div class="tab-pane container active my-4" id="paid">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="container table-container m-0 p-0">
+                                                {% if userPaidArticles[0] is not null %}
+
+                                                <table class="table table-bordered table-dark table-hover mb-3">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="text-center text-danger">ID</th>
+                                                        <th class="text-center text-danger">Title</th>
+                                                        <th class="text-center text-danger">Price</th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for pa in userPaidArticles %}
+                                                            <tr>
+                                                                <td> {{ pa.article.id }}</td>
+                                                                <td>{{ pa.article.title }}</td>
+                                                                <td>{{ pa.article.price }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                    {% else %}
+                                                    none
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane container fade my-4" id="posted">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="container table-container m-0 p-0">
+                                                {% if userPublishedArticles[0] is not null %}
+
+                                                <table class="table table-bordered table-dark table-hover mb-3">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="text-center text-danger">ID</th>
+                                                        <th class="text-center text-danger">Title</th>
+                                                        <th class="text-center text-danger">Price</th>
+                                                        <th class="text-center text-danger">Views</th>
+
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for pa in userPublishedArticles %}
+                                                            <tr>
+                                                                <td> {{ pa.id }}</td>
+                                                                <td>{{ pa.title }}</td>
+                                                                <td>{{ pa.price }}</td>
+                                                                <td>{{ pa.views }}</td>
+                                                            </tr>
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                                {% else %}
+                                                    none
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="tab-pane container fade" id="fav">
+                                    <div class="row">
+                                        <div class="col">
+                                            <div class="row mt-2">
+                                                <span>Credits</span>
+                                            </div>
+                                            <hr class="text-white mb-0 pb-0">
+                                            <div class="row">
+                                                <span>Available: <span>{{ user.userWallet.credits }}</span></span>
+                                            </div>
+                                            <div class="row">
+                                                <span>Purchased: <span>---</span></span>
+                                            </div>
+                                            <div class="row">
+                                                <span>Earnings: <span>---</span></span>
+                                            </div>
+                                            <div class="row">
+                                                <span>Platform fees: <span>---</span></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .tab-content{
+            border-radius: 0 0 15px 15px;
+            height: 66vh;
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+        }
+
+        .nav-item .active{
+            background: rgb(27, 28, 31) !important;
+            border-radius: 15px 15px 0 0 ;
+            border: none !important;
+        }
+
+        .content .nav-link,
+        .content .nav-link:active,
+        .content .nav-link:hover,
+        .content .nav-link:focus{
+            border-radius: 15px 15px 0 0 ;
+            background-color: #b4b4b4;
+        }
+
+        .table-container{
+            overflow-y: auto;
+            height: 60vh;
+        }
+
+        .content-profile{
+            margin: -60px 0 0 -30px;
+            width: 100%;
+            height: 80vh;
+            border-radius: 15px;
+            background: rgb(17,18,20);
+            background: linear-gradient(180deg, rgb(28, 29, 35) 0%, rgba(52,58,64,1) 100%);
+        }
+
+        .content-profile img{
+            width: 100px;
+            padding: 0;
+            height: auto;
+            border: 2px solid black;
+            border-radius: 12px;
+        }
+
+
+
+    </style>
+
+
+
 {% endblock %}

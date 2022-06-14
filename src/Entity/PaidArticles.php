@@ -24,13 +24,13 @@ class PaidArticles
     private $id;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="article")
+     * @ORM\ManyToOne(targetEntity=Article::class, inversedBy="article", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $article;
 
     /**
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="paidArticles")
+     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="paidArticles", fetch="EAGER")
      * @ORM\JoinColumn(nullable=false)
      */
     private $user;
